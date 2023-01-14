@@ -161,17 +161,17 @@ object tournamentConfig {
 //            "minecraft:portal"
 //        )
 //
-//        @JsonSchema(description = "Whether the ship helm assembles diagonally connected blocks or not")
-//        val diagonals = true
+        @JsonSchema(description = "Whether the ship helm assembles diagonally connected blocks or not")
+        val diagonals = true
 //
 //        @JsonSchema(description = "How many blocks to assemble per tick")
 //        val assembliesPerTick = 1000
 //
-//        @JsonSchema(description = "Weight of ballast when lowest redstone power")
-//        val ballastWeight: Double = 10000.0
-//
-//        @JsonSchema(description = "Weight of ballast when highest redstone power")
-//        val ballastNoWeight: Double = 10.0
+        @JsonSchema(description = "Weight of ballast when lowest redstone power")
+        val ballastWeight: Double = 10000.0
+
+        @JsonSchema(description = "Weight of ballast when highest redstone power")
+        val ballastNoWeight: Double = 10.0
 //
 //        @JsonSchema(description = "Max speed an anchor will pull a ship back to the anchor point")
 //        val anchorSpeed: Double = 100000.0

@@ -19,8 +19,6 @@ import org.valkyrienskies.mod.event.RegistryEvents
 object tournamentBlocks {
     private val BLOCKS = DeferredRegister.create(tournamentMod.MOD_ID, Registry.BLOCK_REGISTRY)
 
-    val ANCHOR = BLOCKS.register("anchor", ::AnchorBlock)
-    val FLOATER = BLOCKS.register("floater", ::FloaterBlock)
     val BALLAST = BLOCKS.register("ballast", ::BallastBlock)
 
     // region Ship Helms
@@ -44,7 +42,7 @@ object tournamentBlocks {
     }
 
     fun makeFlammables() {
-        flammableBlock(FLOATER.get(), 5, 20)
+        //flammableBlock(FLOATER.get(), 5, 20)
     }
     // endregion
 
