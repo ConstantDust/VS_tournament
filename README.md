@@ -1,5 +1,5 @@
-![Logo-Recovered](vs_eureka_logo.png)
+![Logo-Recovered](vs_tournament_logo.png)
 
-# Eureka
+# tournament
 
 Basically Archimedes Ships, but with VS2 as the backend!
