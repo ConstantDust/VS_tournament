@@ -17,6 +17,8 @@ import org.valkyrienskies.core.impl.pipelines.SegmentUtils
 import org.valkyrienskies.mod.common.util.toJOML
 import org.valkyrienskies.mod.common.util.toJOMLD
 import org.joml.Vector3d
+import org.valkyrienskies.core.api.ships.properties.ShipId
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.*
 
 @JsonAutoDetect(
@@ -31,13 +33,12 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
 
     private var extraForce = 0.0
     private var physConsumption = 0f
-    private var totalloc = Vector3d(0.0,0.0,0.0)
-    private var avgloc = Vector3d(0.0, 0.0, 0.0)
     private val farters = mutableListOf<Pair<Vector3i, Direction>>()
+
+    public var pulseForces : Vector3dc? = null
+
     var consumed = 0f
         private set
-
-    private var controlData: ControlData? = null
 
     private data class ControlData(
         var forwardImpulse: Float = 0.0f,
@@ -88,21 +89,6 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
             0.0
         ).mul(mass * 10.0)
 
-        val balloonForceProvided = forcePerBalloon
-
-//        val actualUpwardForce = Vector3d(0.0, min(balloonForceProvided, max(idealUpwardForce.y(), 0.0)), 0.0)
-
-//        for (i in 1..balloons) {
-//            var loc = (balloonpos.get(i-1).toJOMLD())
-//            totalloc.x += loc.x
-//            totalloc.y += loc.y
-//            totalloc.z += loc.z
-//        }
-//        totalloc.div(balloons.toDouble())
-//        totalloc.x = totalloc.x/balloons
-//        totalloc.y = totalloc.y/balloons
-//        totalloc.div = totalloc.z/balloons
-
         physShip as PhysShipImpl
         val shipCoordsinworld: Vector3dc = physShip.poseVel.pos
 
@@ -120,123 +106,6 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
         // end region
 
 
-
-        // region Aligning
-
-//        val invRotation = physShip.poseVel.rot.invert(Quaterniond())
-//        val invRotationAxisAngle = AxisAngle4d(invRotation)
-//        // Floor makes a number 0 to 3, which corresponds to direction
-//
-//        stabilize(
-//            physShip,
-//            omega,
-//            vel,
-//            segment,
-//            forcesApplier,
-//            controllingPlayer == null && !aligning,
-//            controllingPlayer == null
-//        )
-//
-//        var idealUpwardVel = Vector3d(0.0, 0.0, 0.0)
-//
-//
-//        controlData?.let { control ->
-//            // region Player controlled rotation
-//            var rotationVector = Vector3d(
-//                0.0,
-//                if (control.leftImpulse != 0.0f)
-//                    (control.leftImpulse.toDouble() * 3.0)
-//                else
-//                    -omega.y() * 3.0,
-//                0.0
-//            )
-//
-//            rotationVector.sub(0.0, omega.y(), 0.0)
-//
-//            SegmentUtils.transformDirectionWithScale(
-//                physShip.poseVel,
-//                segment,
-//                moiTensor.transform(
-//                    SegmentUtils.invTransformDirectionWithScale(
-//                        physShip.poseVel,
-//                        segment,
-//                        rotationVector,
-//                        rotationVector
-//                    )
-//                ),
-//                rotationVector
-//            )
-//
-//            forcesApplier.applyInvariantTorque(rotationVector)
-        // endregion
-
-        // region Player controlled banking
-
-//            physShip.poseVel.transformDirection(rotationVector)
-//
-//            rotationVector.y = 0.0
-//
-//            rotationVector.mul(control.leftImpulse.toDouble() * 3.0 * -1.5)
-//
-//            SegmentUtils.transformDirectionWithScale(
-//                physShip.poseVel,
-//                segment,
-//                moiTensor.transform(
-//                    SegmentUtils.invTransformDirectionWithScale(
-//                        physShip.poseVel,
-//                        segment,
-//                        rotationVector,
-//                        rotationVector
-//                    )
-//                ),
-//                rotationVector
-//            )
-//
-//            forcesApplier.applyInvariantTorque(rotationVector)
-        // endregion
-
-
-
-//            val playerUpDirection = physShip.poseVel.transformDirection(Vector3d(0.0, 1.0, 0.0))
-//            val velOrthogonalToPlayerUp =
-//                vel.sub(playerUpDirection.mul(playerUpDirection.dot(vel), Vector3d()), Vector3d())
-//
-//            // This is the speed that the ship is always allowed to go out, without engines
-//            val baseForwardVel = Vector3d(forwardVector).mul(3.0)
-//            val baseForwardForce = Vector3d(baseForwardVel).sub(velOrthogonalToPlayerUp).mul(mass * 10)
-//
-//            // This is the maximum speed we want to go in any scenario (when not sprinting)
-//            val idealForwardVel = Vector3d(forwardVector).mul(20.0)
-//            val idealForwardForce = Vector3d(idealForwardVel).sub(velOrthogonalToPlayerUp).mul(mass * 10)
-//
-//            val extraForceNeeded = Vector3d(idealForwardForce).sub(baseForwardForce)
-//            val actualExtraForce = Vector3d(baseForwardForce)
-//
-//            if (extraForce != 0.0) {
-//                actualExtraForce.fma(min(extraForce / extraForceNeeded.length(), 1.0), extraForceNeeded)
-//            }
-
-//            forcesApplier.applyInvariantForce(actualExtraForce)
-        // endregion
-
-        // Player controlled elevation
-//            if (control.upImpulse != 0.0f) {
-//                idealUpwardVel = Vector3d(0.0, 1.0, 0.0)
-//                    .mul(control.upImpulse.toDouble())
-//                    .mul(7.0)
-//            }
-//        }
-
-        // region Elevation
-        // Higher numbers make the ship accelerate to max speed faster
-
-//        forcesApplier.applyInvariantForce(actualUpwardForce)
-        // endregion
-
-        // Drag
-        // forcesApplier.applyInvariantForce(Vector3d(vel.y()).mul(-mass))
-
-//        val ship = ship ?: return
 
         farters.forEach {
             val (pos, dir) = it
@@ -264,19 +133,6 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
         physConsumption = 0.0f
 //        balloonTick()
     }
-
-//    private fun balloonTick() {
-//        if (balloons>0) {
-//            totalloc = Vector3d(0.0,0.0,0.0)
-//            for (i in 1..balloons) {
-//                var loc = (balloonpos.get(i-1))
-//                totalloc.x += loc.x
-//                totalloc.y += loc.y
-//                totalloc.z += loc.z
-//            }
-//            avgloc = totalloc.div(balloons.toDouble())
-//        }
-//    }
 
     private fun deleteIfEmpty() {
         if (balloons == 0) {

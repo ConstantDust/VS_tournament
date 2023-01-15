@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+	"parent": "vs_tournament",
 	"texture_size": [64, 64],
 	"elements": [
 		{

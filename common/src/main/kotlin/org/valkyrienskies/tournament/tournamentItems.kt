@@ -4,6 +4,7 @@ import net.minecraft.core.Registry
 import net.minecraft.world.item.Item
 import org.valkyrienskies.tournament.item.GrabGun
 import org.valkyrienskies.tournament.item.GrabGunOG
+import org.valkyrienskies.tournament.item.PulseGun
 import org.valkyrienskies.tournament.registry.DeferredRegister
 
 @Suppress("unused")
@@ -12,6 +13,7 @@ object tournamentItems {
 
     val GRABGUNOG = ITEMS.register("grabgun_old", ::GrabGunOG)
     val GRABGUN = ITEMS.register("grabgun", ::GrabGun)
+    val PULSEGUN = ITEMS.register("pulse_gun", ::PulseGun)
 
 
 //    val TAB: CreativeModeTab = CreativeTabs.create(
