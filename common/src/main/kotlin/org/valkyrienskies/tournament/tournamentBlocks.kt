@@ -20,6 +20,8 @@ object tournamentBlocks {
     private val BLOCKS = DeferredRegister.create(tournamentMod.MOD_ID, Registry.BLOCK_REGISTRY)
 
     val BALLAST = BLOCKS.register("ballast", ::BallastBlock)
+    val SPINNER = BLOCKS.register("spinner", ::SpinnerBlock)
+
 
     // region Ship Helms
 
