@@ -1,6 +1,5 @@
 package org.valkyrienskies.tournament.item
 
-import net.fabricmc.loader.impl.lib.sat4j.core.Vec
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.Entity
@@ -22,17 +21,16 @@ import org.valkyrienskies.mod.common.dimensionId
 import org.valkyrienskies.mod.common.getShipObjectManagingPos
 import org.valkyrienskies.mod.common.shipObjectWorld
 import org.valkyrienskies.mod.common.util.toJOML
-import org.valkyrienskies.mod.common.util.toJOMLD
 import org.valkyrienskies.physics_api.ConstraintId
+
 
 class GrabGun : Item(
     Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC)
-), ShipForcesInducer {
+) {
 
     var CurrentPlayer : Player? = null
     var thisShipID : ShipId? = null
     var grabbing : Boolean = false
-    var Weight : Double = 1.0
 
     var SettingRot : Quaterniondc? = null
     var CurrentPlayerPitch : Double = 0.0
@@ -125,9 +123,9 @@ class GrabGun : Item(
                 val newCurrentPlayerPitch = CurrentPlayer!!.xRot.toDouble()
                 val newCurrentPlayerYaw = CurrentPlayer!!.yRot.toDouble()
 
-                val ogPlayerRot = playerRotToQuaternion(CurrentPlayerPitch,CurrentPlayerYaw)
-                val newPlayerRot = playerRotToQuaternion(newCurrentPlayerPitch, newCurrentPlayerYaw)
-                val deltaPlayerRot = newPlayerRot.mul(ogPlayerRot.conjugate(), Quaterniond())
+                val ogPlayerRot = playerRotToQuaternion(CurrentPlayerPitch,CurrentPlayerYaw).normalize()
+                val newPlayerRot = playerRotToQuaternion(newCurrentPlayerPitch, newCurrentPlayerYaw).normalize()
+                val deltaPlayerRot = newPlayerRot.mul(ogPlayerRot.conjugate(), Quaterniond()).normalize()
                 val newRot = deltaPlayerRot.mul(SettingRot, Quaterniond()).normalize()
 
                 // Update Pos Values
@@ -135,37 +133,35 @@ class GrabGun : Item(
                 val posOffset = Vector3d(thisAttachPoint!!).sub(tempShip!!.transform.positionInShip)
                 val posGlobalOffset = tempShip.transform.shipToWorld.transformDirection(posOffset, Vector3d())
 
-                // Weight Managment
-                if(Weight != null && Weight != 0.0){
-                    Weight = 1.0
-                }
 
-                val AttachmentCompliance = 1e-1 * Weight
-                val AttachmentMaxForce = 1e3 * Weight
+                val Mass = tempShip.inertiaData.mass
+
+                val AttachmentCompliance = 1e-7 / Mass
+                val AttachmentMaxForce = 1e10 * Mass
                 val AttachmentFixedDistance = 0.0
                 val AttachmentConstraint = VSAttachmentConstraint(
                     thisShipID!!, otherShipId, AttachmentCompliance, Vector3d(thisAttachPoint!!).sub(posOffset), Vector3d(SettingPos!!).sub(posGlobalOffset),
                     AttachmentMaxForce, AttachmentFixedDistance
                 )
 
-                val RotationCompliance = 1e-1 *  Weight
-                val RotationMaxForce = 1e4 * Weight
+                val RotationCompliance = 1e-6 / Mass
+                val RotationMaxForce = 1e10 * Mass
                 val RotationConstraint = VSFixedOrientationConstraint(
                     thisShipID!!, otherShipId, RotationCompliance, Quaterniond(), newRot!!,
                     RotationMaxForce
                 )
 
-                val PosDampingCompliance = 1e-2 * Weight
-                val PosDampingMaxForce = 1e5 * Weight
-                val PosDampingEff = 1000.0 * Weight
+                val PosDampingCompliance = 0.0
+                val PosDampingMaxForce = 0.0
+                val PosDampingEff = 0.0
                 val PosDampingConstraint = VSPosDampingConstraint(
                     thisShipID!!, otherShipId, PosDampingCompliance, Vector3d(thisAttachPoint!!).sub(posOffset), Vector3d(SettingPos!!).sub(posGlobalOffset),
                     PosDampingMaxForce, PosDampingEff
                 )
 
-                val RotDampingCompliance = 1e-2 * Weight
-                val RotDampingMaxForce = 1e5 * Weight
-                val RotDampingEff = 1000.0 * Weight
+                val RotDampingCompliance = 0.0
+                val RotDampingMaxForce = 0.0
+                val RotDampingEff = 0.0
                 val RotDampingConstraint = VSRotDampingConstraint(
                     thisShipID!!, otherShipId, RotDampingCompliance, Quaterniond(), newRot!!,
                     RotDampingMaxForce, RotDampingEff, VSRotDampingAxes.ALL_AXES
@@ -191,11 +187,6 @@ class GrabGun : Item(
     }
 
     fun playerRotToQuaternion(pitch:Double, yaw:Double) : Quaterniond {
-        return Quaterniond().rotateY(Math.toRadians(-yaw)).rotateX(Math.toRadians(pitch))
-    }
-
-    override fun applyForces(physShip: PhysShip) {
-        physShip as PhysShipImpl
-        Weight = physShip.inertia.shipMass
+        return Quaterniond().rotateY(Math.toRadians(-yaw))//.rotateX(Math.toRadians(pitch))
     }
 }
