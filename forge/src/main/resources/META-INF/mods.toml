@@ -7,9 +7,9 @@ license = "Apache-2.0"
 modId = "vs_tournament"
 version = "${version}"
 displayName = "VS tournament Mod"
-authors = ["Tri0de", "ewoudje", "VS2 Discord Artists"]
+authors = ["ConstantDust", "Blank (Nameless)"]
 description = '''
-Basically Archimedes Ships, but with VS2 as the backend!
+A minecraft Compitition mod!!
 '''
 logoFile = "icon.png"
 

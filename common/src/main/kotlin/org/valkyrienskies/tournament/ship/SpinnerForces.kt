@@ -2,19 +2,16 @@ package org.valkyrienskies.tournament.ship
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonIgnore
-import net.minecraft.core.BlockPos
-import net.minecraft.core.Direction
 import org.joml.Vector3d
 import org.joml.Vector3dc
-import org.joml.Vector3i
+import org.joml.Vector3ic
 import org.valkyrienskies.core.api.ships.PhysShip
 import org.valkyrienskies.core.api.ships.ServerShip
 import org.valkyrienskies.core.api.ships.getAttachment
 import org.valkyrienskies.core.api.ships.saveAttachment
 import org.valkyrienskies.core.impl.api.ServerShipUser
 import org.valkyrienskies.core.impl.api.ShipForcesInducer
-import org.valkyrienskies.mod.common.util.toJOML
-import org.valkyrienskies.mod.common.util.toJOMLD
+import java.util.concurrent.ConcurrentHashMap
 
 @JsonAutoDetect(
     fieldVisibility = JsonAutoDetect.Visibility.ANY,
@@ -23,29 +20,26 @@ import org.valkyrienskies.mod.common.util.toJOMLD
     setterVisibility = JsonAutoDetect.Visibility.NONE
 )
 class SpinnerForces(@JsonIgnore override var ship: ServerShip?) : ShipForcesInducer, ServerShipUser {
-    private val Spinners = mutableListOf<Pair<Vector3i, Direction>>()
+    private val Spinners = ConcurrentHashMap<Vector3ic, Vector3dc>()
 
     override fun applyForces(physShip: PhysShip) {
-        val ship = ship as ServerShip
         Spinners.forEach {
-            val (pos, dir) = it
+            val (pos, torque) = it
 
-            val tDir = ship.shipToWorld.transformDirection(dir.normal.toJOMLD())
+            val torqueGlobal = physShip.transform.shipToWorldRotation.transform(torque, Vector3d())
 
-            val Multiplier = 10000.0
-
-            physShip.applyInvariantTorque(tDir.mul(Multiplier))
+            physShip.applyInvariantTorque(torqueGlobal)
 
         }
     }
 
 
-    fun addBlock(pos: BlockPos, dir: Direction) {
-        Spinners.add(pos.toJOML() to dir)
+    fun addBlock(pos: Vector3ic, torque: Vector3dc) {
+        Spinners[pos] = torque
     }
 
-    fun removeBlock(pos: BlockPos, dir: Direction) {
-        Spinners.remove(pos.toJOML() to dir)
+    fun removeBlock(pos: Vector3ic) {
+        Spinners.remove(pos)
     }
 
     companion object {

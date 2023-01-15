@@ -12,9 +12,13 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.material.Material
+import org.apache.commons.math3.analysis.function.Power
+import org.joml.Vector3d
 import org.valkyrienskies.core.api.ships.getAttachment
 import org.valkyrienskies.mod.common.getShipManagingPos
 import org.valkyrienskies.mod.common.getShipObjectManagingPos
+import org.valkyrienskies.mod.common.util.toJOML
+import org.valkyrienskies.mod.common.util.toJOMLD
 import org.valkyrienskies.tournament.ship.SpinnerForces
 
 class SpinnerBlock : DirectionalBlock(
@@ -39,7 +43,7 @@ class SpinnerBlock : DirectionalBlock(
         level as ServerLevel
 
         val ship = level.getShipObjectManagingPos(pos) ?: level.getShipManagingPos(pos) ?: return
-        SpinnerForces.getOrCreate(ship).addBlock(pos, state.getValue(FACING))
+        SpinnerForces.getOrCreate(ship).addBlock(pos.toJOML(), state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER) * 1000.0 ))
     }
 
     override fun onRemove(state: BlockState, level: Level, pos: BlockPos, newState: BlockState, isMoving: Boolean) {
@@ -48,7 +52,7 @@ class SpinnerBlock : DirectionalBlock(
         if (level.isClientSide) return
         level as ServerLevel
 
-        level.getShipManagingPos(pos)?.getAttachment<SpinnerForces>()?.removeBlock(pos, state.getValue(FACING))
+        level.getShipManagingPos(pos)?.getAttachment<SpinnerForces>()?.removeBlock(pos.toJOML())
     }
 
     override fun neighborChanged(

@@ -3,11 +3,10 @@
   "id": "vs_tournament",
   "version": "${version}",
   "name": "VS tournament Mod",
-  "description": "Basically Archimedes Ships, but with VS2 as the backend!",
+  "description": "A minecraft Compitition mod!",
   "authors": [
-    "ewoudje",
-    "Tri0de",
-    "Rubydesic"
+    "ConstantDust",
+    "Blank (Nameless)"
   ],
   "contributors": [
     "Copper",
