@@ -3,7 +3,6 @@ package org.valkyrienskies.tournament
 import net.minecraft.core.Registry
 import net.minecraft.world.item.Item
 import org.valkyrienskies.tournament.item.GrabGun
-import org.valkyrienskies.tournament.item.GrabGunOG
 import org.valkyrienskies.tournament.item.PulseGun
 import org.valkyrienskies.tournament.registry.DeferredRegister
 
@@ -11,7 +10,6 @@ import org.valkyrienskies.tournament.registry.DeferredRegister
 object tournamentItems {
     private val ITEMS = DeferredRegister.create(tournamentMod.MOD_ID, Registry.ITEM_REGISTRY)
 
-    val GRABGUNOG = ITEMS.register("grabgun_old", ::GrabGunOG)
     val GRABGUN = ITEMS.register("grabgun", ::GrabGun)
     val PULSEGUN = ITEMS.register("pulse_gun", ::PulseGun)
 

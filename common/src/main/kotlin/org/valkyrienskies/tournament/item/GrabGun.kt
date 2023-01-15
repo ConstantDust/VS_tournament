@@ -32,7 +32,7 @@ class GrabGun : Item(
     var CurrentPlayer : Player? = null
     var thisShipID : ShipId? = null
     var grabbing : Boolean = false
-    var Weight : Double = 0.0
+    var Weight : Double = 1.0
 
     var SettingRot : Quaterniondc? = null
     var CurrentPlayerPitch : Double = 0.0
@@ -155,16 +155,16 @@ class GrabGun : Item(
                     RotationMaxForce
                 )
 
-                val PosDampingCompliance = 1e-4 * Weight
-                val PosDampingMaxForce = 1e3 * Weight
+                val PosDampingCompliance = 1e-2 * Weight
+                val PosDampingMaxForce = 1e5 * Weight
                 val PosDampingEff = 1000.0 * Weight
                 val PosDampingConstraint = VSPosDampingConstraint(
                     thisShipID!!, otherShipId, PosDampingCompliance, Vector3d(thisAttachPoint!!).sub(posOffset), Vector3d(SettingPos!!).sub(posGlobalOffset),
                     PosDampingMaxForce, PosDampingEff
                 )
 
-                val RotDampingCompliance = 1e-4 * Weight
-                val RotDampingMaxForce = 1e3 * Weight
+                val RotDampingCompliance = 1e-2 * Weight
+                val RotDampingMaxForce = 1e5 * Weight
                 val RotDampingEff = 1000.0 * Weight
                 val RotDampingConstraint = VSRotDampingConstraint(
                     thisShipID!!, otherShipId, RotDampingCompliance, Quaterniond(), newRot!!,

@@ -36,6 +36,10 @@ object tournamentConfig {
 //
 //        @JsonSchema(description = "The maximum amount extra each floater will multiply the buoyant force by, irrespective of mass")
 //        var maxFloaterBuoyantFactor = 1.0
+
+        @JsonSchema(description = "The Force a spinner will output")
+        var SpinnerSpeed = 1000.0
+
 //
 //        // The velocity any ship at least can move at.
 //        @JsonSchema(description = "The speed a ship with no engines can move at")

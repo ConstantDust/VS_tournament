@@ -20,6 +20,7 @@ import org.valkyrienskies.mod.common.getShipObjectManagingPos
 import org.valkyrienskies.mod.common.util.toJOML
 import org.valkyrienskies.mod.common.util.toJOMLD
 import org.valkyrienskies.tournament.ship.SpinnerForces
+import org.valkyrienskies.tournament.tournamentConfig
 
 class SpinnerBlock : DirectionalBlock(
     Properties.of(Material.STONE)
@@ -43,7 +44,7 @@ class SpinnerBlock : DirectionalBlock(
         level as ServerLevel
 
         val ship = level.getShipObjectManagingPos(pos) ?: level.getShipManagingPos(pos) ?: return
-        SpinnerForces.getOrCreate(ship).addBlock(pos.toJOML(), state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER) * 1000.0 ))
+        SpinnerForces.getOrCreate(ship).addBlock(pos.toJOML(), state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER) * tournamentConfig.SERVER.SpinnerSpeed ))
     }
 
     override fun onRemove(state: BlockState, level: Level, pos: BlockPos, newState: BlockState, isMoving: Boolean) {
