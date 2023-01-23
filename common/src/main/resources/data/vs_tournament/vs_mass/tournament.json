@@ -1,6 +1,10 @@
 [
   {
-    "block": "vs_tournament:ship_helm",
+    "block": "vs_tournament:spinner",
     "mass": 350.0
+  },
+  {
+    "block": "vs_tournament:thruster",
+    "mass": 400.0
   }
 ]

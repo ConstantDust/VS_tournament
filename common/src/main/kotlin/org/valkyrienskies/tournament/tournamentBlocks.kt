@@ -7,20 +7,18 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.FireBlock
-import net.minecraft.world.level.block.SoundType
-import net.minecraft.world.level.block.state.BlockBehaviour
-import net.minecraft.world.level.material.Material
-import net.minecraft.world.level.material.MaterialColor
+import org.valkyrienskies.mod.common.hooks.VSGameEvents
 import org.valkyrienskies.tournament.block.*
 import org.valkyrienskies.tournament.registry.DeferredRegister
-import org.valkyrienskies.mod.event.RegistryEvents
 
 @Suppress("unused")
 object tournamentBlocks {
     private val BLOCKS = DeferredRegister.create(tournamentMod.MOD_ID, Registry.BLOCK_REGISTRY)
 
-    val BALLAST = BLOCKS.register("ballast", ::BallastBlock)
-    val SPINNER = BLOCKS.register("spinner", ::SpinnerBlock)
+    val BALLAST     = BLOCKS.register("ballast", ::BallastBlock)
+    val BALLOON     = BLOCKS.register("balloon", ::BalloonBlock)
+    val THRUSTER    = BLOCKS.register("thruster", ::ThrusterBlock)
+    val SPINNER     = BLOCKS.register("spinner", ::SpinnerBlock)
 
 
     // region Ship Helms
@@ -31,7 +29,7 @@ object tournamentBlocks {
     fun register() {
         BLOCKS.applyAll()
 
-        RegistryEvents.onRegistriesComplete {
+        VSGameEvents.registriesCompleted.on { _, _ ->
             makeFlammables()
         }
     }

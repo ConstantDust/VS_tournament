@@ -51,6 +51,8 @@ configurations {
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
+
+    //modApi "me.shedaniel:architectury-forge:${rootProject.architectury_version}"
     modApi("org.valkyrienskies:valkyrienskies-118-forge:${rootProject.vs2_version}") { transitive = false }
     implementation("org.valkyrienskies.core:api:1.1.0+c92814e9b7") { transitive = false }
 
