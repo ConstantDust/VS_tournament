@@ -21,7 +21,7 @@ import org.valkyrienskies.mod.common.getShipManagingPos
 import org.valkyrienskies.mod.common.getShipObjectManagingPos
 import org.valkyrienskies.mod.common.util.toJOML
 import org.valkyrienskies.mod.common.util.toJOMLD
-import org.valkyrienskies.tournament.ship.SpinnerForces
+import org.valkyrienskies.tournament.ship.tournamentShipControl
 import org.valkyrienskies.tournament.tournamentConfig
 import org.valkyrienskies.tournament.util.DirectionalShape
 import org.valkyrienskies.tournament.util.RotShapes
@@ -59,8 +59,8 @@ class SpinnerBlock : DirectionalBlock(
         if (level.isClientSide) return
         level as ServerLevel
 
-        SpinnerForces.getOrCreate(level.getShipObjectManagingPos(pos) ?: level.getShipManagingPos(pos) ?: return
-            ).addBlock(pos.toJOML(), state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER) * tournamentConfig.SERVER.SpinnerSpeed ))
+        tournamentShipControl.getOrCreate(level.getShipObjectManagingPos(pos) ?: level.getShipManagingPos(pos) ?: return
+            ).addSpinner(pos.toJOML(), state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER) * tournamentConfig.SERVER.SpinnerSpeed ))
     }
 
     override fun onRemove(state: BlockState, level: Level, pos: BlockPos, newState: BlockState, isMoving: Boolean) {
@@ -69,7 +69,7 @@ class SpinnerBlock : DirectionalBlock(
         if (level.isClientSide) return
         level as ServerLevel
 
-        level.getShipManagingPos(pos)?.getAttachment<SpinnerForces>()?.removeBlock(pos.toJOML())
+        level.getShipManagingPos(pos)?.getAttachment<tournamentShipControl>()?.addSpinner(pos.toJOML(), state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER) * tournamentConfig.SERVER.SpinnerSpeed ))
     }
 
     override fun neighborChanged(

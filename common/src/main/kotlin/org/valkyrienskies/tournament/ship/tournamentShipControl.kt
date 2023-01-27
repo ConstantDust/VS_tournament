@@ -18,6 +18,7 @@ import org.valkyrienskies.mod.common.util.toJOML
 import org.valkyrienskies.mod.common.util.toJOMLD
 import org.joml.Vector3d
 import org.valkyrienskies.core.api.ships.properties.ShipId
+import org.valkyrienskies.tournament.tournamentConfig
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.*
 
@@ -33,9 +34,10 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
 
     private var extraForce = 0.0
     private var physConsumption = 0f
-    private val farters = mutableListOf<Pair<Vector3i, Direction>>()
 
-    public var pulseForces : Vector3dc? = null
+    private val Balloons = mutableListOf<Pair<Vector3i, Double>>()
+    private val Spinners = mutableListOf<Pair<Vector3ic, Vector3dc>>()
+    private val Thrusters = mutableListOf<Pair<Vector3ic, Vector3dc>>()
 
     var consumed = 0f
         private set
@@ -49,9 +51,6 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
 
     override fun applyForces(physShip: PhysShip) {
         if (ship == null) return
-
-        val forcesApplier = physShip
-
         physShip as PhysShipImpl
 
         val mass = physShip.inertia.shipMass
@@ -60,60 +59,34 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
         val omega = SegmentUtils.getOmega(physShip.poseVel, segment, Vector3d())
         val vel = SegmentUtils.getVelocity(physShip.poseVel, segment, Vector3d())
 
-//        val buoyantFactorPerFloater = min(
-//            tournamentConfig.SERVER.floaterBuoyantFactorPerKg / 15 / mass,
-//            tournamentConfig.SERVER.maxFloaterBuoyantFactor
-//        )
+        Balloons.forEach {
+            val (pos, pow) = it
 
-        physShip.buoyantFactor = 1.0 //+ floaters * buoyantFactorPerFloater
-        // Revisiting eureka control code.
-        // [x] Move torque stabilization code
-        // [x] Move linear stabilization code
-        // [x] Revisit player controlled torque
-        // [x] Revisit player controlled linear force
-        // [x] Anchor freezing
-        // [x] Rewrite Alignment code
-        // [x] Revisit Elevation code
-        // [x] Balloon limiter
-        // [ ] Add Cruise code
-        // [ ] Rotation based of shipsize
-        // [x] Engine consumption
-        // [ ] Fix elevation sensititvity
+            val tPos = Vector3d(pos).add( 0.5, 0.5, 0.5).sub(physShip.transform.positionInShip)
 
-        // region Balloons
-        var idealUpwardVel = Vector3d(0.0, 0.0, 0.0)
-        //        val elevationSnappiness = 10.0
-        val idealUpwardForce = Vector3d(
-            0.0,
-            idealUpwardVel.y() - vel.y() - (GRAVITY / 10.0),
-            0.0
-        ).mul(mass * 10.0)
+            physShip.applyInvariantForceToPos(Vector3d(0.0,(pow + 1.0) * tournamentConfig.SERVER.BalloonPower,0.0), tPos)
 
-        physShip as PhysShipImpl
-        val shipCoordsinworld: Vector3dc = physShip.poseVel.pos
-
-        val shipCoords = ship!!.transform.positionInShip
-        var falloffamount = 0.0
-        var falloff = 1.0
-
-        val actualUpwardForce = Vector3d(0.0, (5000.0/falloff), 0.0)
-        balloonpos.forEach {
-            if (actualUpwardForce.isFinite) {
-                forcesApplier.applyInvariantForceToPos(actualUpwardForce, Vector3d(it).sub(shipCoords))
-//                println("APPLIED AT " + it.sub(shipCoords).toString())
-            }
         }
-        // end region
 
+        Spinners.forEach {
+            val (pos, torque) = it
 
+            val torqueGlobal = physShip.transform.shipToWorldRotation.transform(torque, Vector3d())
 
-        farters.forEach {
-            val (pos, dir) = it
+            physShip.applyInvariantTorque(torqueGlobal)
 
-            val tPos = Vector3d(pos).add( 0.5, 0.5, 0.5).sub(ship!!.transform.positionInShip)
+        }
 
-            if (tPos.isFinite) {
-                physShip.applyRotDependentForceToPos(dir.normal.toJOMLD().mul(-10000.0), tPos)
+        Thrusters.forEach {
+            val (pos, force) = it
+
+            val tForce = physShip.transform.shipToWorld.transformDirection(force, Vector3d()) //.shipToWorld.transformDirection(force, Vector3d())
+            val tPos = Vector3d(pos).add( 0.5, 0.5, 0.5).sub(physShip.transform.positionInShip)
+
+            if(force.isFinite && physShip.poseVel.vel.length()< 50){
+                println(force)
+
+                physShip.applyInvariantForceToPos(tForce.mul(tournamentConfig.SERVER.ThrusterSpeed, Vector3d()), tPos)
             }
         }
     }
@@ -129,7 +102,7 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
     override fun tick() {
         extraForce = power
         power = 0.0
-        consumed = physConsumption * /* should be phyics ticks based*/ 0.1f
+        consumed = physConsumption *0.1f
         physConsumption = 0.0f
 //        balloonTick()
     }
@@ -140,12 +113,28 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
         }
     }
 
-    fun addFarter(pos: BlockPos, dir: Direction) {
-        farters.add(pos.toJOML() to dir)
+
+    fun addBalloon(pos: BlockPos, pow: Double) {
+        Balloons.add(pos.toJOML() to pow)
     }
 
-    fun removeFarter(pos: BlockPos, dir: Direction) {
-        farters.remove(pos.toJOML() to dir)
+    fun removeBalloon(pos: BlockPos, pow: Double) {
+        Balloons.remove(pos.toJOML() to pow)
+    }
+
+    fun addThruster(pos: BlockPos, force: Vector3dc) {
+        Thrusters.add(pos.toJOML() to force)
+    }
+    fun removeThruster(pos: BlockPos, force: Vector3dc) {
+        Thrusters.remove(pos.toJOML() to force)
+    }
+
+    fun addSpinner(pos: Vector3ic, torque: Vector3dc) {
+        Spinners.add(pos to torque)
+    }
+
+    fun removeSpinner(pos: Vector3ic, torque: Vector3dc) {
+        Spinners.remove(pos to torque)
     }
 
     companion object {
@@ -154,7 +143,7 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
                 ?: tournamentShipControl().also { ship.saveAttachment(it) }
         }
 
-        private val forcePerBalloon get() = 5000 * -GRAVITY
+        private val forcePerBalloon get() = tournamentConfig.SERVER.BalloonPower * -GRAVITY
 
         private const val GRAVITY = -10.0
     }

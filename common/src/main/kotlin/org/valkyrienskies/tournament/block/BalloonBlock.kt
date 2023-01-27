@@ -7,23 +7,17 @@ import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.projectile.Projectile
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.AbstractFurnaceBlock.FACING
 import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.DirectionalBlock
 import net.minecraft.world.level.block.SoundType
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.material.Material
 import net.minecraft.world.phys.BlockHitResult
-import org.apache.commons.math3.analysis.function.Power
 import org.valkyrienskies.core.api.ships.getAttachment
 import org.valkyrienskies.mod.common.getShipManagingPos
 import org.valkyrienskies.mod.common.getShipObjectManagingPos
-import org.valkyrienskies.mod.common.util.toJOML
-import org.valkyrienskies.mod.common.util.toJOMLD
-import org.valkyrienskies.tournament.ship.BalloonForces
-import org.valkyrienskies.tournament.tournamentConfig
+import org.valkyrienskies.tournament.ship.tournamentShipControl
 
 class BalloonBlock : Block(
     Properties.of(Material.WOOL)
@@ -64,8 +58,8 @@ class BalloonBlock : Block(
         if (level.isClientSide) return
         level as ServerLevel
 
-        BalloonForces.getOrCreate(level.getShipObjectManagingPos(pos) ?: level.getShipManagingPos(pos) ?: return
-            ).addBlock(pos, state.getValue(BlockStateProperties.POWER).toDouble())
+        tournamentShipControl.getOrCreate(level.getShipObjectManagingPos(pos) ?: level.getShipManagingPos(pos) ?: return
+            ).addBalloon(pos, state.getValue(BlockStateProperties.POWER).toDouble())
     }
 
     override fun onRemove(state: BlockState, level: Level, pos: BlockPos, newState: BlockState, isMoving: Boolean) {
@@ -74,7 +68,7 @@ class BalloonBlock : Block(
         if (level.isClientSide) return
         level as ServerLevel
 
-        level.getShipManagingPos(pos)?.getAttachment<BalloonForces>()?.removeBlock(pos, state.getValue(BlockStateProperties.POWER).toDouble())
+        level.getShipManagingPos(pos)?.getAttachment<tournamentShipControl>()?.removeBalloon(pos, state.getValue(BlockStateProperties.POWER).toDouble())
     }
     override fun onProjectileHit(level: Level, state: BlockState, hit: BlockHitResult, projectile: Projectile) {
         if (level.isClientSide) return
