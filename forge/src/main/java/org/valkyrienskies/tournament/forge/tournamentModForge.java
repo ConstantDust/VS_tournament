@@ -43,24 +43,13 @@ public class tournamentModForge {
         happendClientSetup = true;
 
         tournamentMod.initClient();
-
-//        WheelModels.INSTANCE.setModelGetter(woodType -> ForgeModelBakery.instance().getBakedTopLevelModels()
-//                .getOrDefault(
-//                        new ResourceLocation(tournamentMod.MOD_ID, "block/" + woodType.getResourceName() + "_ship_helm_wheel"),
-//                        Minecraft.getInstance().getModelManager().getMissingModel()
-//                ));
     }
 
     void entityRenderers(final EntityRenderersEvent.RegisterRenderers event) {
-//        event.registerBlockEntityRenderer(
-//                tournamentBlockEntities.INSTANCE.getSHIP_HELM().get(),
-//                ShipHelmBlockEntityRenderer::new
-//        );
+
     }
 
     void onModelRegistry(final ModelRegistryEvent event) {
-//        for (WoodType woodType : WoodType.values()) {
-//            ForgeModelBakery.addSpecialModel(new ResourceLocation(tournamentMod.MOD_ID, "block/" + woodType.getResourceName() + "_ship_helm_wheel"));
-//        }
+
     }
 }

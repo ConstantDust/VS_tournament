@@ -11,6 +11,7 @@ import org.valkyrienskies.core.api.ships.getAttachment
 import org.valkyrienskies.core.api.ships.saveAttachment
 import org.valkyrienskies.core.impl.api.ServerShipUser
 import org.valkyrienskies.core.impl.api.ShipForcesInducer
+import org.valkyrienskies.core.impl.game.ships.PhysShipImpl
 import java.util.concurrent.ConcurrentHashMap
 
 @JsonAutoDetect(
@@ -19,10 +20,11 @@ import java.util.concurrent.ConcurrentHashMap
     isGetterVisibility = JsonAutoDetect.Visibility.NONE,
     setterVisibility = JsonAutoDetect.Visibility.NONE
 )
-class SpinnerForces(@JsonIgnore override var ship: ServerShip?) : ShipForcesInducer, ServerShipUser {
+class SpinnerForces() : ShipForcesInducer {
     private val Spinners = ConcurrentHashMap<Vector3ic, Vector3dc>()
 
     override fun applyForces(physShip: PhysShip) {
+        physShip as PhysShipImpl
         Spinners.forEach {
             val (pos, torque) = it
 
@@ -45,6 +47,6 @@ class SpinnerForces(@JsonIgnore override var ship: ServerShip?) : ShipForcesIndu
     companion object {
         fun getOrCreate(ship: ServerShip): SpinnerForces =
             ship.getAttachment<SpinnerForces>()
-                ?: SpinnerForces(ship).also { ship.saveAttachment(it) }
+                ?: SpinnerForces().also { ship.saveAttachment(it) }
     }
 }

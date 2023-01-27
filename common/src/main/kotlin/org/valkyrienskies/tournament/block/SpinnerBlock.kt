@@ -59,8 +59,8 @@ class SpinnerBlock : DirectionalBlock(
         if (level.isClientSide) return
         level as ServerLevel
 
-        val ship = level.getShipObjectManagingPos(pos) ?: level.getShipManagingPos(pos) ?: return
-        SpinnerForces.getOrCreate(ship).addBlock(pos.toJOML(), state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER) * tournamentConfig.SERVER.SpinnerSpeed ))
+        SpinnerForces.getOrCreate(level.getShipObjectManagingPos(pos) ?: level.getShipManagingPos(pos) ?: return
+            ).addBlock(pos.toJOML(), state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER) * tournamentConfig.SERVER.SpinnerSpeed ))
     }
 
     override fun onRemove(state: BlockState, level: Level, pos: BlockPos, newState: BlockState, isMoving: Boolean) {

@@ -64,13 +64,8 @@ class BalloonBlock : Block(
         if (level.isClientSide) return
         level as ServerLevel
 
-        val ship = level.getShipObjectManagingPos(pos)
-        if(ship != null){
-            level.getShipManagingPos(pos)
-        } else{
-            return
-        }
-        BalloonForces.getOrCreate(ship).addBlock(pos, state.getValue(BlockStateProperties.POWER).toDouble())
+        BalloonForces.getOrCreate(level.getShipObjectManagingPos(pos) ?: level.getShipManagingPos(pos) ?: return
+            ).addBlock(pos, state.getValue(BlockStateProperties.POWER).toDouble())
     }
 
     override fun onRemove(state: BlockState, level: Level, pos: BlockPos, newState: BlockState, isMoving: Boolean) {

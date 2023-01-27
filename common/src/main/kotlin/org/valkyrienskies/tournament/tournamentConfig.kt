@@ -14,7 +14,7 @@ object tournamentConfig {
     class Server {
 
         @JsonSchema(description = "The Force a spinner will output")
-        var SpinnerSpeed = 1000.0
+        var SpinnerSpeed = 5000.0
 
         @JsonSchema(description = "The Force a balloon will output")
         var BalloonPower = 3000.0

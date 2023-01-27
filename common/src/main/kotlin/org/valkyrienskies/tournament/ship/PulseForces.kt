@@ -9,6 +9,7 @@ import org.valkyrienskies.core.api.ships.getAttachment
 import org.valkyrienskies.core.api.ships.saveAttachment
 import org.valkyrienskies.core.impl.api.ServerShipUser
 import org.valkyrienskies.core.impl.api.ShipForcesInducer
+import org.valkyrienskies.core.impl.game.ships.PhysShipImpl
 import java.util.concurrent.CopyOnWriteArrayList
 
 
@@ -18,15 +19,15 @@ import java.util.concurrent.CopyOnWriteArrayList
     isGetterVisibility = JsonAutoDetect.Visibility.NONE,
     setterVisibility = JsonAutoDetect.Visibility.NONE
 )
-class PulseForces(@JsonIgnore override var ship: ServerShip?) : ShipForcesInducer, ServerShipUser {
+class PulseForces() : ShipForcesInducer {
     private val Pulses = CopyOnWriteArrayList<Pair<Vector3d, Vector3d>>()
 
     override fun applyForces(physShip: PhysShip) {
-
+        physShip as PhysShipImpl
         Pulses.forEach {
             val (pos, force) = it
             
-            physShip.applyInvariantForce(force)
+            physShip.applyInvariantForceToPos(force, pos)
             println(force)
         }
 
@@ -41,6 +42,6 @@ class PulseForces(@JsonIgnore override var ship: ServerShip?) : ShipForcesInduce
     companion object {
         fun getOrCreate(ship: ServerShip): PulseForces =
             ship.getAttachment<PulseForces>()
-                ?: PulseForces(ship).also { ship.saveAttachment(it) }
+                ?: PulseForces().also { ship.saveAttachment(it) }
     }
 }

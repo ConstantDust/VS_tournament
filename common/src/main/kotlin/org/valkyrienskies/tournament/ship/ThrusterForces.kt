@@ -14,6 +14,7 @@ import org.valkyrienskies.core.api.ships.getAttachment
 import org.valkyrienskies.core.api.ships.saveAttachment
 import org.valkyrienskies.core.impl.api.ServerShipUser
 import org.valkyrienskies.core.impl.api.ShipForcesInducer
+import org.valkyrienskies.core.impl.game.ships.PhysShipImpl
 import org.valkyrienskies.mod.common.util.toJOML
 import org.valkyrienskies.tournament.tournamentConfig
 import java.util.concurrent.ConcurrentHashMap
@@ -25,19 +26,20 @@ import java.util.concurrent.CopyOnWriteArrayList
     isGetterVisibility = JsonAutoDetect.Visibility.NONE,
     setterVisibility = JsonAutoDetect.Visibility.NONE
 )
-class ThrusterForces(@JsonIgnore override var ship: ServerShip?) : ShipForcesInducer, ServerShipUser {
+class ThrusterForces() : ShipForcesInducer {
     val thrusters = CopyOnWriteArrayList<Pair<Vector3ic, Vector3dc>>()
 
     override fun applyForces(physShip: PhysShip) {
-        val ship = ship as ServerShip
+        physShip as PhysShipImpl
+
         thrusters.forEach {
             val (pos, force) = it
 
 
-            val tForce = ship.shipToWorld.transformDirection(force, Vector3d())
-            val tPos = Vector3d(pos).add( 0.5, 0.5, 0.5).sub(ship.transform.positionInShip)
+            val tForce = physShip.transform.shipToWorld.transformDirection(force, Vector3d()) //.shipToWorld.transformDirection(force, Vector3d())
+            val tPos = Vector3d(pos).add( 0.5, 0.5, 0.5).sub(physShip.transform.positionInShip)
 
-            if(force.isFinite && ship.velocity.length() < 50){
+            if(force.isFinite && physShip.poseVel.vel.length()< 50){
                 println(force)
 
                 physShip.applyInvariantForceToPos(tForce.mul(tournamentConfig.SERVER.ThrusterSpeed, Vector3d()), tPos)
@@ -57,6 +59,6 @@ class ThrusterForces(@JsonIgnore override var ship: ServerShip?) : ShipForcesInd
     companion object {
         fun getOrCreate(ship: ServerShip): ThrusterForces =
             ship.getAttachment<ThrusterForces>()
-                ?: ThrusterForces(ship).also { ship.saveAttachment(it) }
+                ?: ThrusterForces().also { ship.saveAttachment(it) }
     }
 }
