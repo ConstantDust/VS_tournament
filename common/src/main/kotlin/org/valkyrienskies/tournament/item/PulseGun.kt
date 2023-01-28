@@ -9,7 +9,7 @@ import org.joml.Vector3d
 import org.valkyrienskies.core.apigame.constraints.*
 import org.valkyrienskies.mod.common.getShipObjectManagingPos
 import org.valkyrienskies.mod.common.util.toJOML
-import org.valkyrienskies.tournament.ship.PulseForces
+import org.valkyrienskies.tournament.ship.tournamentShipControl
 
 class PulseGun : Item(
     Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC)
@@ -40,7 +40,7 @@ class PulseGun : Item(
 
         pulseForce = player!!.lookAngle.toJOML().normalize().mul(Force * ship.inertiaData.mass)
 
-        PulseForces.getOrCreate(ship!!).addPulse(blockLocation, pulseForce!!)
+        tournamentShipControl.getOrCreate(ship!!).addPulse(blockLocation, pulseForce!!)
 
         return super.useOn(context)
     }

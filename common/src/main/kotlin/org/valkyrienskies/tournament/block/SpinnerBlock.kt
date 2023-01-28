@@ -60,7 +60,7 @@ class SpinnerBlock : DirectionalBlock(
         level as ServerLevel
 
         tournamentShipControl.getOrCreate(level.getShipObjectManagingPos(pos) ?: level.getShipManagingPos(pos) ?: return
-            ).addSpinner(pos.toJOML(), state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER) * tournamentConfig.SERVER.SpinnerSpeed ))
+            ).addSpinner(pos.toJOML(), state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER).toDouble()))
     }
 
     override fun onRemove(state: BlockState, level: Level, pos: BlockPos, newState: BlockState, isMoving: Boolean) {
@@ -69,7 +69,7 @@ class SpinnerBlock : DirectionalBlock(
         if (level.isClientSide) return
         level as ServerLevel
 
-        level.getShipManagingPos(pos)?.getAttachment<tournamentShipControl>()?.addSpinner(pos.toJOML(), state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER) * tournamentConfig.SERVER.SpinnerSpeed ))
+        level.getShipManagingPos(pos)?.getAttachment<tournamentShipControl>()?.removeSpinner(pos.toJOML(), state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER).toDouble()))
     }
 
     override fun neighborChanged(

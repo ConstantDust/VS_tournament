@@ -20,6 +20,7 @@ import org.joml.Vector3d
 import org.valkyrienskies.core.api.ships.properties.ShipId
 import org.valkyrienskies.tournament.tournamentConfig
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.math.*
 
 @JsonAutoDetect(
@@ -38,16 +39,10 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
     private val Balloons = mutableListOf<Pair<Vector3i, Double>>()
     private val Spinners = mutableListOf<Pair<Vector3ic, Vector3dc>>()
     private val Thrusters = mutableListOf<Pair<Vector3ic, Vector3dc>>()
+    private val Pulses = CopyOnWriteArrayList<Pair<Vector3d, Vector3d>>()
 
     var consumed = 0f
         private set
-
-    private data class ControlData(
-        var forwardImpulse: Float = 0.0f,
-        var leftImpulse: Float = 0.0f,
-        var upImpulse: Float = 0.0f,
-        var liftImpulse: Float = 0.0f,
-    )
 
     override fun applyForces(physShip: PhysShip) {
         if (ship == null) return
@@ -73,7 +68,7 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
 
             val torqueGlobal = physShip.transform.shipToWorldRotation.transform(torque, Vector3d())
 
-            physShip.applyInvariantTorque(torqueGlobal)
+            physShip.applyInvariantTorque(torqueGlobal.mul(tournamentConfig.SERVER.SpinnerSpeed ))
 
         }
 
@@ -89,6 +84,16 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
                 physShip.applyInvariantForceToPos(tForce.mul(tournamentConfig.SERVER.ThrusterSpeed, Vector3d()), tPos)
             }
         }
+
+        //Pulse Gun
+        Pulses.forEach {
+            val (pos, force) = it
+
+            physShip.applyRotDependentForceToPos(force, pos)
+            println(force)
+        }
+
+        Pulses.clear()
     }
     var power = 0.0
 
@@ -96,8 +101,6 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
         set(v) {
             field = v; deleteIfEmpty()
         }
-
-    var balloonpos = mutableListOf<Vector3dc>()
 
     override fun tick() {
         extraForce = power
@@ -132,10 +135,15 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
     fun addSpinner(pos: Vector3ic, torque: Vector3dc) {
         Spinners.add(pos to torque)
     }
-
     fun removeSpinner(pos: Vector3ic, torque: Vector3dc) {
         Spinners.remove(pos to torque)
     }
+
+    fun addPulse(pos: Vector3d, force: Vector3d) {
+        Pulses.add(pos to force)
+    }
+
+
 
     companion object {
         fun getOrCreate(ship: ServerShip): tournamentShipControl {
