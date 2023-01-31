@@ -59,6 +59,9 @@ class ThrusterBlock : DirectionalBlock(
         if (level.isClientSide) return
         level as ServerLevel
 
+        val signal = level.getBestNeighborSignal(pos)
+        level.setBlock(pos, state.setValue(BlockStateProperties.POWER, signal), 2)
+
         tournamentShipControl.getOrCreate(level.getShipObjectManagingPos(pos) ?: level.getShipManagingPos(pos) ?: return
         )?.addThruster(pos, state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER).toDouble()))
     }
@@ -95,20 +98,22 @@ class ThrusterBlock : DirectionalBlock(
 
     override fun animateTick(state: BlockState, level: Level, pos: BlockPos, random: Random) {
         super.animateTick(state, level, pos, random)
-        val dir = state.getValue(FACING)
+        if (state.getValue(BlockStateProperties.POWER) > 0) {
+            val dir = state.getValue(FACING)
 
-        val x = pos.x.toDouble() + (0.5 * (dir.stepX + 1));
-        val y = pos.y.toDouble() + (0.5 * (dir.stepY + 1));
-        val z = pos.z.toDouble() + (0.5 * (dir.stepZ + 1));
-        val speedX = dir.stepX * -0.24
-        val speedY = dir.stepY * -0.24
-        val speedZ = dir.stepZ * -0.24
+            val x = pos.x.toDouble() + (0.5 * (dir.stepX + 1));
+            val y = pos.y.toDouble() + (0.5 * (dir.stepY + 1));
+            val z = pos.z.toDouble() + (0.5 * (dir.stepZ + 1));
+            val speedX = dir.stepX * -0.24
+            val speedY = dir.stepY * -0.24
+            val speedZ = dir.stepZ * -0.24
 
-        for (i in 0..16) {
-            val x2 = x + random.nextDouble() * 0.2 - 0.1
-            val y2 = y + random.nextDouble() * 0.2 - 0.1
-            val z2 = z + random.nextDouble() * 0.2 - 0.1
-            level.addParticle(ParticleTypes.FLAME, x2, y2, z2, speedX, speedY, speedZ)
+            for (i in 0..16) {
+                val x2 = x + random.nextDouble() * 0.2 - 0.1
+                val y2 = y + random.nextDouble() * 0.2 - 0.1
+                val z2 = z + random.nextDouble() * 0.2 - 0.1
+                level.addParticle(ParticleTypes.FLAME, x2, y2, z2, speedX, speedY, speedZ)
+            }
         }
     }
 }

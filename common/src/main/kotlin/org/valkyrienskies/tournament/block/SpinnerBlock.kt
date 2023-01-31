@@ -59,6 +59,9 @@ class SpinnerBlock : DirectionalBlock(
         if (level.isClientSide) return
         level as ServerLevel
 
+        val signal = level.getBestNeighborSignal(pos)
+        level.setBlock(pos, state.setValue(BlockStateProperties.POWER, signal), 2)
+
         tournamentShipControl.getOrCreate(level.getShipObjectManagingPos(pos) ?: level.getShipManagingPos(pos) ?: return
             ).addSpinner(pos.toJOML(), state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER).toDouble()))
     }
@@ -69,6 +72,7 @@ class SpinnerBlock : DirectionalBlock(
         if (level.isClientSide) return
         level as ServerLevel
 
+        state.setValue(BlockStateProperties.POWER, 0)
         level.getShipManagingPos(pos)?.getAttachment<tournamentShipControl>()?.removeSpinner(pos.toJOML(), state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER).toDouble()))
     }
 

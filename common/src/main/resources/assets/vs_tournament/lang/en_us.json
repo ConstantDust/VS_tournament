@@ -2,6 +2,7 @@
   "block.vs_tournament.ballast": "Ballast",
   "block.vs_tournament.balloon": "Balloon",
   "block.vs_tournament.spinner": "Spinner",
+  "block.vs_tournament.thruster": "Thruster",
 
   "item.vs_tournament.pulse_gun": "Pulse Gun"
 }
