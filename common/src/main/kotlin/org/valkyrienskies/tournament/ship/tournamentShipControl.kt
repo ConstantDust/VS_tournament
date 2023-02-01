@@ -88,9 +88,10 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
         //Pulse Gun
         Pulses.forEach {
             val (pos, force) = it
+            val tPos = Vector3d(pos).add( 0.5, 0.5, 0.5).sub(physShip.transform.positionInShip)
+            val tForce = physShip.transform.worldToShip.transformDirection(force, Vector3d())
 
-            physShip.applyRotDependentForceToPos(force, pos)
-            println(force)
+            physShip.applyRotDependentForceToPos(tForce, tPos)
         }
 
         Pulses.clear()

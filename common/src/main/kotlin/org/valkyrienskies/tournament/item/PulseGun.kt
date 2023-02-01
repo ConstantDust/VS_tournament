@@ -15,7 +15,7 @@ class PulseGun : Item(
     Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC)
 ){
 
-    val Force : Double = 1000.0
+    val Force : Double = 100.0
     var pulseForce : Vector3d? = null
 
     override fun useOn(context: UseOnContext): InteractionResult {
@@ -38,9 +38,9 @@ class PulseGun : Item(
             return InteractionResult.PASS
         }
 
-        pulseForce = player!!.lookAngle.toJOML().normalize().mul(Force * ship.inertiaData.mass)
+        pulseForce = player.lookAngle.toJOML().normalize().mul(Force * ship.inertiaData.mass)
 
-        tournamentShipControl.getOrCreate(ship!!).addPulse(blockLocation, pulseForce!!)
+        tournamentShipControl.getOrCreate(ship).addPulse(blockLocation, pulseForce!!)
 
         return super.useOn(context)
     }
