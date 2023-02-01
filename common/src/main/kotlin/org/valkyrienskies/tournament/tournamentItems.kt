@@ -1,7 +1,9 @@
 package org.valkyrienskies.tournament
 
 import net.minecraft.core.Registry
+import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
 import org.valkyrienskies.tournament.item.PulseGun
 import org.valkyrienskies.tournament.registry.DeferredRegister
 
@@ -9,16 +11,13 @@ import org.valkyrienskies.tournament.registry.DeferredRegister
 object tournamentItems {
     private val ITEMS = DeferredRegister.create(tournamentMod.MOD_ID, Registry.ITEM_REGISTRY)
 
-    //val GRABGUN = ITEMS.register("grabgun", ::GrabGun)
     val PULSEGUN = ITEMS.register("pulse_gun", ::PulseGun)
 
-
-//    val TAB: CreativeModeTab = CreativeTabs.create(
-//        ResourceLocation(
-//            tournamentMod.MOD_ID,
-//            "tournament_tab"
-//        )
-//    ) { ItemStack(tournamentBlocks.BALLAST.get()) }
+    val TAB: CreativeModeTab = object : CreativeModeTab(CreativeModeTab.TABS.size,"vs_tournament.tournament_tab") {
+        override fun makeIcon(): ItemStack? {
+            return ItemStack(tournamentBlocks.THRUSTER.get())
+        }
+    }
 
     fun register() {
         tournamentBlocks.registerItems(ITEMS)
@@ -26,4 +25,5 @@ object tournamentItems {
     }
 
     private infix fun Item.byName(name: String) = ITEMS.register(name) { this }
+
 }

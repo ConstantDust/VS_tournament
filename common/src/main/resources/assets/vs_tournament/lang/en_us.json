@@ -3,6 +3,9 @@
   "block.vs_tournament.balloon": "Balloon",
   "block.vs_tournament.spinner": "Spinner",
   "block.vs_tournament.thruster": "Thruster",
+  "block.vs_tournament.shipifier": "Shipifier",
+
+  "itemGroup.vs_tournament.tournament_tab": "VS Tournament",
 
   "item.vs_tournament.pulse_gun": "Pulse Gun"
 }

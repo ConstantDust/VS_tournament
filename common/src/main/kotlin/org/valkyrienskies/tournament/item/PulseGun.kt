@@ -11,9 +11,10 @@ import org.valkyrienskies.mod.common.getShipObjectManagingPos
 import org.valkyrienskies.mod.common.util.toJOML
 import org.valkyrienskies.tournament.ship.tournamentShipControl
 import org.valkyrienskies.tournament.tournamentConfig
+import org.valkyrienskies.tournament.tournamentItems
 
 class PulseGun : Item(
-    Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC)
+    Properties().stacksTo(1).tab(tournamentItems.TAB)
 ){
 
     private var pulseForce : Vector3d? = null

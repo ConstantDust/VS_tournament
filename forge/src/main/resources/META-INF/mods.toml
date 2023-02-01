@@ -1,13 +1,13 @@
 modLoader = "javafml"
 loaderVersion = "[40,)"
-issueTrackerURL = "https://github.com/ValkyrienSkies/Valkyrien-Skies-2/issues"
+issueTrackerURL = "https://github.com/ConstantDust/VS_tournament/issues"
 license = "Apache-2.0"
 
 [[mods]]
 modId = "vs_tournament"
 version = "${version}"
-displayName = "VS tournament Mod"
-authors = ["ConstantDust"]
+displayName = "VS Tournament Mod"
+authors = ["ConstantDust", "alex_s168"]
 description = '''
 A minecraft Compitition mod!!
 '''

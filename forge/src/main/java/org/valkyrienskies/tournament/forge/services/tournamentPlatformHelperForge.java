@@ -10,19 +10,5 @@ import org.jetbrains.annotations.NotNull;
 import org.valkyrienskies.tournament.services.tournamentPlatformHelper;
 
 public class tournamentPlatformHelperForge implements tournamentPlatformHelper {
-    @NotNull
-    @Override
-    public CreativeModeTab createCreativeTab(@NotNull ResourceLocation id, @NotNull Function0<ItemStack> stack) {
-        return new CreativeModeTab(id.toString()) {
-            @Override
-            public ItemStack makeIcon() {
-                return stack.invoke();
-            }
 
-            @Override
-            public Component getDisplayName() {
-                return new TranslatableComponent("itemGroup." + String.format("%s.%s", id.getNamespace(), id.getPath()));
-            }
-        };
-    }
 }
