@@ -26,12 +26,15 @@ object tournamentConfig {
         var ThrusterSpeed = 10000.0
 
         @JsonSchema(description = "Whether the ship helm assembles diagonally connected blocks or not")
-        val diagonals = true
+        var diagonals = true
 
         @JsonSchema(description = "Weight of ballast when lowest redstone power")
-        val ballastWeight: Double = 10000.0
+        var ballastWeight = 10000.0
 
         @JsonSchema(description = "Weight of ballast when highest redstone power")
-        val ballastNoWeight: Double = 10.0
+        var ballastNoWeight = 10.0
+
+        @JsonSchema(description = "The Force the Pulse Gun applies")
+        var pulseGunForce = 500.0
     }
 }

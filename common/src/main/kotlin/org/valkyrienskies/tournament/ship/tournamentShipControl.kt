@@ -79,8 +79,6 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
             val tPos = Vector3d(pos).add( 0.5, 0.5, 0.5).sub(physShip.transform.positionInShip)
 
             if(force.isFinite && physShip.poseVel.vel.length()< 50){
-                println(force)
-
                 physShip.applyInvariantForceToPos(tForce.mul(tournamentConfig.SERVER.ThrusterSpeed, Vector3d()), tPos)
             }
         }

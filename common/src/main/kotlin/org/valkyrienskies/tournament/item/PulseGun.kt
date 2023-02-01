@@ -10,15 +10,16 @@ import org.valkyrienskies.core.apigame.constraints.*
 import org.valkyrienskies.mod.common.getShipObjectManagingPos
 import org.valkyrienskies.mod.common.util.toJOML
 import org.valkyrienskies.tournament.ship.tournamentShipControl
+import org.valkyrienskies.tournament.tournamentConfig
 
 class PulseGun : Item(
     Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC)
 ){
 
-    val Force : Double = 100.0
-    var pulseForce : Vector3d? = null
+    private var pulseForce : Vector3d? = null
 
     override fun useOn(context: UseOnContext): InteractionResult {
+        val force = tournamentConfig.SERVER.pulseGunForce
 
         val player = context.player
         val blockPosition = context.clickedPos
@@ -38,7 +39,7 @@ class PulseGun : Item(
             return InteractionResult.PASS
         }
 
-        pulseForce = player.lookAngle.toJOML().normalize().mul(Force * ship.inertiaData.mass)
+        pulseForce = player.lookAngle.toJOML().normalize().mul(force * ship.inertiaData.mass)
 
         tournamentShipControl.getOrCreate(ship).addPulse(blockLocation, pulseForce!!)
 
