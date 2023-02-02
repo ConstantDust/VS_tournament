@@ -1,4 +1,4 @@
-// stolen from valkyrien skies 2
+// stolen from valkyrien skies 2 (debug hinge) + added cool stuff
 
 package org.valkyrienskies.tournament.block
 
@@ -45,11 +45,9 @@ import org.valkyrienskies.mod.common.dimensionId
 import org.valkyrienskies.mod.common.getShipManagingPos
 import org.valkyrienskies.mod.common.shipObjectWorld
 import org.valkyrienskies.mod.common.util.toJOML
-import org.valkyrienskies.tournament.api.TournamentBlockstateProperties
 import org.valkyrienskies.tournament.tournamentBlocks
 import kotlin.math.roundToInt
 
-//TODO: STORE SHIP ID SO IT DOESNT LOOSE SHIP ON REENTERING THE WORLD
 class HingeBlock :
         DirectionalBlock(
                 Properties.of(Material.METAL).strength(10.0f, 1200.0f).sound(SoundType.METAL)
@@ -63,16 +61,15 @@ class HingeBlock :
     private val DOWN_AABB = box(0.0, 8.0, 0.0, 16.0, 16.0, 16.0)
 
     init {
-        registerDefaultState(this.stateDefinition.any().setValue(FACING, UP).setValue(TournamentBlockstateProperties.SHIPID, -1))
+        registerDefaultState(this.stateDefinition.any().setValue(FACING, UP))
     }
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
-        builder.add(TournamentBlockstateProperties.SHIPID)
         builder.add(FACING)
     }
 
     override fun getStateForPlacement(ctx: BlockPlaceContext): BlockState {
-        return defaultBlockState().setValue(FACING, ctx.nearestLookingDirection.opposite).setValue(TournamentBlockstateProperties.SHIPID, -1)
+        return defaultBlockState().setValue(FACING, ctx.nearestLookingDirection.opposite)
     }
 
     @Deprecated("Deprecated in Java")
@@ -202,8 +199,6 @@ class HingeBlock :
                 level.setBlockAndUpdate(shipCenterPos, Blocks.GOLD_BLOCK.defaultBlockState())
                 level.setBlockAndUpdate(shipCenterPos.offset(0,-1,0), tournamentBlocks.HINGE_TOP.get().defaultBlockState())
                 blockEntity.get().otherHingePos = shipCenterPos
-
-                ship.id
 
                 val shipId0 = shipThisIsIn?.id ?: level.shipObjectWorld.dimensionToGroundBodyIdImmutable[level.dimensionId]!!
                 val shipId1 = ship.id

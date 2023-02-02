@@ -32,6 +32,7 @@ import org.valkyrienskies.mod.common.util.toJOMLD
 import org.valkyrienskies.tournament.api.TournamentBlockstateProperties
 import org.valkyrienskies.tournament.item.ThrusterUpgrade
 import org.valkyrienskies.tournament.ship.tournamentShipControl
+import org.valkyrienskies.tournament.tournamentItems
 import org.valkyrienskies.tournament.util.DirectionalShape
 import org.valkyrienskies.tournament.util.RotShapes
 import java.util.*
@@ -46,7 +47,7 @@ class ThrusterBlock : DirectionalBlock (
     val Thruster_SHAPE = DirectionalShape.north(SHAPE)
 
     init {
-        registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.POWER, 0).setValue(TournamentBlockstateProperties.TIER, 2))
+        registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.POWER, 0).setValue(TournamentBlockstateProperties.TIER, 1))
     }
 
     override fun getRenderShape(blockState: BlockState): RenderShape {
@@ -58,11 +59,18 @@ class ThrusterBlock : DirectionalBlock (
     }
 
     override fun use(state: BlockState, level: Level, pos: BlockPos, player: Player, hand: InteractionHand, hit: BlockHitResult): InteractionResult {
-        if (player.mainHandItem.item.javaClass == ::ThrusterUpgrade) {
-            //TODO: get thruster upgrade nbt and upgrade thruster to upgrade value
-            return InteractionResult.SUCCESS
+        if (player.mainHandItem.item.asItem().equals(tournamentItems.THRUSTERUPGRADE.get())) {
+            if (level.isClientSide) return InteractionResult.SUCCESS
+            level as ServerLevel
+
+            level.setBlock(pos, state.setValue(TournamentBlockstateProperties.TIER, (state.getValue(TournamentBlockstateProperties.TIER)+1).coerceIn(1,5) ), 1)
+
+            print(level.getBlockState(pos).getValue(TournamentBlockstateProperties.TIER))
+            return InteractionResult.CONSUME
         }
-        return InteractionResult.FAIL
+        else {
+            return InteractionResult.PASS
+        }
     }
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {

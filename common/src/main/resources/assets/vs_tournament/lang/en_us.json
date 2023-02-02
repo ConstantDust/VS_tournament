@@ -4,8 +4,13 @@
   "block.vs_tournament.spinner": "Spinner",
   "block.vs_tournament.thruster": "Thruster",
   "block.vs_tournament.shipifier": "Shipifier",
+  "block.vs_tournament.hinge": "Hinge",
+  "block.vs_tournament.seat": "Seat",
 
   "itemGroup.vs_tournament.tournament_tab": "VS Tournament",
 
-  "item.vs_tournament.pulse_gun": "Pulse Gun"
+  "item.vs_tournament.pulse_gun": "Pulse Gun",
+  "item.vs_tournament.delete_gun": "Deletation Gun",
+  "item.vs_tournament.grab_gun": "Gravity Gun",
+  "item.vs_tournament.upgrade_thruster": "Thruster Upgrade"
 }

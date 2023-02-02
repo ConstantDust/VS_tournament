@@ -22,7 +22,7 @@ class HingeTopBlock : Block(
                 .sound(SoundType.METAL).strength(1.0f, 2.0f)
 ) {
 
-    protected val TOP_AABB: DirectionalShape = DirectionalShape.north(RotShapes.box(0.0, 0.0, 0.0, 16.0, 16.0, 8.0))
+    protected val TOP_AABB: DirectionalShape = DirectionalShape.north(RotShapes.box(0.0, 0.0, 8.0, 16.0, 16.0, 16.0))
 
     init {
         registerDefaultState(defaultBlockState().setValue(DirectionalBlock.FACING, Direction.DOWN))

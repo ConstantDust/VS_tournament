@@ -42,7 +42,6 @@ object tournamentConfig {
 
         @JsonSchema(description = "Blacklist of blocks that don't get assembled")
         var blockBlacklist = setOf(
-                "vs_eureka:ship_helm",
                 "minecraft:dirt",
                 "minecraft:grass_block",
                 "minecraft:grass_path",
