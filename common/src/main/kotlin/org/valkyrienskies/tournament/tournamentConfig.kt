@@ -38,7 +38,7 @@ object tournamentConfig {
         var ballastNoWeight = 10.0
 
         @JsonSchema(description = "The Force the Pulse Gun applies")
-        var pulseGunForce = 500.0
+        var pulseGunForce = 300.0
 
         @JsonSchema(description = "Blacklist of blocks that don't get assembled")
         var blockBlacklist = setOf(

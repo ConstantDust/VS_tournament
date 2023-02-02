@@ -45,6 +45,7 @@ import org.valkyrienskies.mod.common.dimensionId
 import org.valkyrienskies.mod.common.getShipManagingPos
 import org.valkyrienskies.mod.common.shipObjectWorld
 import org.valkyrienskies.mod.common.util.toJOML
+import org.valkyrienskies.tournament.api.TournamentBlockstateProperties
 import org.valkyrienskies.tournament.tournamentBlocks
 import kotlin.math.roundToInt
 
@@ -62,15 +63,16 @@ class HingeBlock :
     private val DOWN_AABB = box(0.0, 8.0, 0.0, 16.0, 16.0, 16.0)
 
     init {
-        registerDefaultState(this.stateDefinition.any().setValue(FACING, UP))
+        registerDefaultState(this.stateDefinition.any().setValue(FACING, UP).setValue(TournamentBlockstateProperties.SHIPID, -1))
     }
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
+        builder.add(TournamentBlockstateProperties.SHIPID)
         builder.add(FACING)
     }
 
     override fun getStateForPlacement(ctx: BlockPlaceContext): BlockState {
-        return defaultBlockState().setValue(FACING, ctx.nearestLookingDirection.opposite)
+        return defaultBlockState().setValue(FACING, ctx.nearestLookingDirection.opposite).setValue(TournamentBlockstateProperties.SHIPID, -1)
     }
 
     @Deprecated("Deprecated in Java")

@@ -10,6 +10,7 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.SoundType
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.material.Material
 import net.minecraft.world.phys.BlockHitResult
 import org.valkyrienskies.mod.common.getShipManagingPos
@@ -22,6 +23,10 @@ class ShipifierBlock : Block(
 ) {
 
     override fun use(state: BlockState, level: Level, pos: BlockPos, player: Player, hand: InteractionHand, hit: BlockHitResult): InteractionResult {
+        return asm(level, pos)
+    }
+
+    private fun asm(level: Level, pos: BlockPos): InteractionResult {
         if (level as? ServerLevel == null) return InteractionResult.PASS
         if(level.getShipManagingPos(pos) != null) return InteractionResult.PASS
 
@@ -31,6 +36,22 @@ class ShipifierBlock : Block(
         }
 
         return InteractionResult.SUCCESS
+    }
+
+    override fun neighborChanged(
+            state: BlockState,
+            level: Level,
+            pos: BlockPos,
+            block: Block,
+            fromPos: BlockPos,
+            isMoving: Boolean
+    ) {
+        super.neighborChanged(state, level, pos, block, fromPos, isMoving)
+
+        if (level as? ServerLevel == null) return
+
+        val signal = level.getBestNeighborSignal(pos)
+        asm(level, pos)
     }
 
 }

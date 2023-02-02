@@ -38,7 +38,7 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
 
     private val Balloons = mutableListOf<Pair<Vector3i, Double>>()
     private val Spinners = mutableListOf<Pair<Vector3ic, Vector3dc>>()
-    private val Thrusters = mutableListOf<Pair<Vector3ic, Vector3dc>>()
+    private val Thrusters = mutableListOf<Triple<Vector3ic, Vector3dc, Int>>()
     private val Pulses = CopyOnWriteArrayList<Pair<Vector3d, Vector3d>>()
 
     var consumed = 0f
@@ -83,13 +83,13 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
         }
 
         Thrusters.forEach {
-            val (pos, force) = it
+            val (pos, force, tier) = it
 
             val tForce = physShip.transform.shipToWorld.transformDirection(force, Vector3d()) //.shipToWorld.transformDirection(force, Vector3d())
-            val tPos = Vector3d(pos).add( 0.5, 0.5, 0.5).sub(physShip.transform.positionInShip)
+            val tPos = Vector3d(pos).add(0.5, 0.5, 0.5).sub(physShip.transform.positionInShip)
 
-            if(force.isFinite && physShip.poseVel.vel.length()< 50){
-                physShip.applyInvariantForceToPos(tForce.mul(tournamentConfig.SERVER.ThrusterSpeed, Vector3d()), tPos)
+            if (force.isFinite && physShip.poseVel.vel.length() < 50) {
+                physShip.applyInvariantForceToPos(tForce.mul(tournamentConfig.SERVER.ThrusterSpeed * tier, Vector3d()), tPos)
             }
         }
 
@@ -134,11 +134,11 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
         Balloons.remove(pos.toJOML() to pow)
     }
 
-    fun addThruster(pos: BlockPos, force: Vector3dc) {
-        Thrusters.add(pos.toJOML() to force)
+    fun addThruster(pos: BlockPos, tier: Int, force: Vector3dc) {
+        Thrusters.add(Triple(pos.toJOML(), force, tier))
     }
-    fun removeThruster(pos: BlockPos, force: Vector3dc) {
-        Thrusters.remove(pos.toJOML() to force)
+    fun removeThruster(pos: BlockPos, tier: Int,force: Vector3dc) {
+        Thrusters.remove(Triple(pos.toJOML(), force, tier))
     }
 
     fun addSpinner(pos: Vector3ic, torque: Vector3dc) {
@@ -150,6 +150,10 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
 
     fun addPulse(pos: Vector3d, force: Vector3d) {
         Pulses.add(pos to force)
+    }
+
+    fun forceStopThruster(pos: BlockPos) {
+        Thrusters.removeAll { it.first == pos }
     }
 
 

@@ -1,9 +1,13 @@
 package org.valkyrienskies.tournament.block
 
+import com.mojang.math.Vector3f
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
@@ -15,18 +19,24 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.material.Material
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.Vec3
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
+import org.joml.Vector3d
+import org.joml.Vector3ic
 import org.valkyrienskies.core.api.ships.getAttachment
 import org.valkyrienskies.mod.common.getShipManagingPos
 import org.valkyrienskies.mod.common.getShipObjectManagingPos
 import org.valkyrienskies.mod.common.util.toJOMLD
+import org.valkyrienskies.tournament.api.TournamentBlockstateProperties
+import org.valkyrienskies.tournament.item.ThrusterUpgrade
 import org.valkyrienskies.tournament.ship.tournamentShipControl
 import org.valkyrienskies.tournament.util.DirectionalShape
 import org.valkyrienskies.tournament.util.RotShapes
 import java.util.*
 
-class ThrusterBlock : DirectionalBlock(
+class ThrusterBlock : DirectionalBlock (
     Properties.of(Material.STONE)
         .sound(SoundType.STONE).strength(1.0f, 2.0f)
 ) {
@@ -36,7 +46,7 @@ class ThrusterBlock : DirectionalBlock(
     val Thruster_SHAPE = DirectionalShape.north(SHAPE)
 
     init {
-        registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.POWER, 0))
+        registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.POWER, 0).setValue(TournamentBlockstateProperties.TIER, 2))
     }
 
     override fun getRenderShape(blockState: BlockState): RenderShape {
@@ -47,9 +57,18 @@ class ThrusterBlock : DirectionalBlock(
         return Thruster_SHAPE[state.getValue(BlockStateProperties.FACING)]
     }
 
+    override fun use(state: BlockState, level: Level, pos: BlockPos, player: Player, hand: InteractionHand, hit: BlockHitResult): InteractionResult {
+        if (player.mainHandItem.item.javaClass == ::ThrusterUpgrade) {
+            //TODO: get thruster upgrade nbt and upgrade thruster to upgrade value
+            return InteractionResult.SUCCESS
+        }
+        return InteractionResult.FAIL
+    }
+
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
         builder.add(FACING)
         builder.add(BlockStateProperties.POWER)
+        builder.add(TournamentBlockstateProperties.TIER)
         super.createBlockStateDefinition(builder)
     }
 
@@ -63,7 +82,7 @@ class ThrusterBlock : DirectionalBlock(
         level.setBlock(pos, state.setValue(BlockStateProperties.POWER, signal), 2)
 
         tournamentShipControl.getOrCreate(level.getShipObjectManagingPos(pos) ?: level.getShipManagingPos(pos) ?: return
-        )?.addThruster(pos, state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER).toDouble()))
+        )?.addThruster(pos, state.getValue(TournamentBlockstateProperties.TIER), state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER).toDouble()))
     }
 
     override fun onRemove(state: BlockState, level: Level, pos: BlockPos, newState: BlockState, isMoving: Boolean) {
@@ -72,7 +91,9 @@ class ThrusterBlock : DirectionalBlock(
         if (level.isClientSide) return
         level as ServerLevel
 
-        level.getShipManagingPos(pos)?.getAttachment<tournamentShipControl>()?.removeThruster(pos, state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER).toDouble()))
+        state.setValue(BlockStateProperties.POWER, 0)
+        level.getShipManagingPos(pos)?.getAttachment<tournamentShipControl>()?.removeThruster(pos, state.getValue(TournamentBlockstateProperties.TIER),state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER).toDouble()))
+        level.getShipManagingPos(pos)?.getAttachment<tournamentShipControl>()?.forceStopThruster( pos )
     }
 
     override fun neighborChanged(
@@ -116,4 +137,5 @@ class ThrusterBlock : DirectionalBlock(
             }
         }
     }
+
 }

@@ -20,6 +20,9 @@ object tournamentItems {
     }
 
     fun register() {
+        // TODO: mixin or something
+        // CreativeModeTab.TABS.size += 1
+
         tournamentBlocks.registerItems(ITEMS)
         ITEMS.applyAll()
     }
