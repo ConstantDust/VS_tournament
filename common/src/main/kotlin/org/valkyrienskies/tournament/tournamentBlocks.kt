@@ -22,7 +22,7 @@ object tournamentBlocks {
     val THRUSTER    = BLOCKS.register("thruster", ::ThrusterBlock)
     val SPINNER     = BLOCKS.register("spinner", ::SpinnerBlock)
     val SHIPIFIER   = BLOCKS.register("shipifier", ::ShipifierBlock,)
-    val HINGE   = BLOCKS.register("hinge", ::HingeBlock)
+    val HINGE       = BLOCKS.register("hinge", ::HingeBlock)
     val HINGE_TOP   = BLOCKS.register("hinge_top", ::HingeTopBlock)
 
     fun register() {

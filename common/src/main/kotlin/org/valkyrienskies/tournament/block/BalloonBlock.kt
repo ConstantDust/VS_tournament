@@ -18,6 +18,7 @@ import org.valkyrienskies.core.api.ships.getAttachment
 import org.valkyrienskies.mod.common.getShipManagingPos
 import org.valkyrienskies.mod.common.getShipObjectManagingPos
 import org.valkyrienskies.tournament.ship.tournamentShipControl
+import org.valkyrienskies.tournament.tournamentConfig
 
 class BalloonBlock : Block(
     Properties.of(Material.WOOL)
@@ -59,7 +60,7 @@ class BalloonBlock : Block(
         level as ServerLevel
 
         tournamentShipControl.getOrCreate(level.getShipObjectManagingPos(pos) ?: level.getShipManagingPos(pos) ?: return
-            ).addBalloon(pos, state.getValue(BlockStateProperties.POWER).toDouble())
+            ).addBalloon(pos, state.getValue(BlockStateProperties.POWER).toDouble() * tournamentConfig.SERVER.BalloonAnalogStrength)
     }
 
     override fun onRemove(state: BlockState, level: Level, pos: BlockPos, newState: BlockState, isMoving: Boolean) {
