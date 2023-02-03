@@ -42,9 +42,9 @@ class ThrusterBlock : DirectionalBlock (
         .sound(SoundType.STONE).strength(1.0f, 2.0f)
 ) {
 
-    val SHAPE = RotShapes.box(0.0, 0.25, 0.0, 16.0, 15.75, 16.0)
+    val SHAPE = RotShapes.box(3.0, 5.0, 4.0, 13.0, 11.0, 16.0)
 
-    val Thruster_SHAPE = DirectionalShape.north(SHAPE)
+    val Thruster_SHAPE = DirectionalShape.south(SHAPE)
 
     init {
         registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.POWER, 0).setValue(TournamentBlockstateProperties.TIER, 1))
@@ -130,19 +130,14 @@ class ThrusterBlock : DirectionalBlock (
         if (state.getValue(BlockStateProperties.POWER) > 0) {
             val dir = state.getValue(FACING)
 
-            val x = pos.x.toDouble() + (0.5 * (dir.stepX + 1));
-            val y = pos.y.toDouble() + (0.5 * (dir.stepY + 1));
-            val z = pos.z.toDouble() + (0.5 * (dir.stepZ + 1));
-            val speedX = dir.stepX * -0.24
-            val speedY = dir.stepY * -0.24
-            val speedZ = dir.stepZ * -0.24
+            val x = pos.x.toDouble() + (0.5 * (dir.stepX - 1));
+            val y = pos.y.toDouble() + (0.5 * (dir.stepY - 1));
+            val z = pos.z.toDouble() + (0.5 * (dir.stepZ - 1));
+            val speedX = dir.stepX * -0.4
+            val speedY = dir.stepY * -0.4
+            val speedZ = dir.stepZ * -0.4
 
-            for (i in 0..16) {
-                val x2 = x + random.nextDouble() * 0.2 - 0.1
-                val y2 = y + random.nextDouble() * 0.2 - 0.1
-                val z2 = z + random.nextDouble() * 0.2 - 0.1
-                level.addParticle(ParticleTypes.FLAME, x2, y2, z2, speedX, speedY, speedZ)
-            }
+            level.addParticle(ParticleTypes.FIREWORK, x, y, z, speedX, speedY, speedZ)
         }
     }
 

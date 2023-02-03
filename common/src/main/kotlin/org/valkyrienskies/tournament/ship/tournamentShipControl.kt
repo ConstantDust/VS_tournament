@@ -60,7 +60,7 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
             val tPos = Vector3d(pos).add( 0.5, 0.5, 0.5).sub(physShip.transform.positionInShip)
 
             val tHeight = physShip.transform.positionInWorld.y()
-            var tPValue = tournamentConfig.SERVER.BaseHeight - (tHeight * tHeight) / 1000.0
+            var tPValue = tournamentConfig.SERVER.BaseHeight - ((tHeight * tHeight) / 1000.0)
 
             if (physShip.poseVel.vel.y() > 10.0)    {
                 tPValue *= 0.25

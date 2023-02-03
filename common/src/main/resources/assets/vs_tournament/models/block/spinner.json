@@ -417,31 +417,6 @@
 					"children": [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
 				}
 			]
-		},
-		{
-			"name": "Root",
-			"origin": [8.25, 8, 8],
-			"color": 0,
-			"nbt": "{}",
-			"armAnimationEnabled": false,
-			"children": [
-				{
-					"name": "Base",
-					"origin": [8.25, 8, 8],
-					"color": 3,
-					"nbt": "{}",
-					"armAnimationEnabled": false,
-					"children": []
-				},
-				{
-					"name": "Wheel",
-					"origin": [8.25, 8, 8],
-					"color": 5,
-					"nbt": "{}",
-					"armAnimationEnabled": false,
-					"children": []
-				}
-			]
 		}
 	]
 }
