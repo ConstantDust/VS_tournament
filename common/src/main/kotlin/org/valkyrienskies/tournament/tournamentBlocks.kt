@@ -35,28 +35,27 @@ object tournamentBlocks {
 
     fun registerItems(items: DeferredRegister<Item>) {
         BLOCKS.forEach {
-            if (it.name in tier_sets) {
-                //i know thats bad code but it works
-                if (it.name in no_tab) {
-                    items.register(it.name+"_1") { ThrusterBlockItem(it.get(), Item.Properties()) }
-                    items.register(it.name+"_2") { ThrusterBlockItem(it.get(), Item.Properties()) }
-                    items.register(it.name+"_3") { ThrusterBlockItem(it.get(), Item.Properties()) }
-                    items.register(it.name+"_4") { ThrusterBlockItem(it.get(), Item.Properties()) }
-                    items.register(it.name+"_5") { ThrusterBlockItem(it.get(), Item.Properties()) }
-                } else {
-                    items.register(it.name+"_1") { ThrusterBlockItem(it.get(), Item.Properties().tab(tournamentItems.TAB)) }
-                    items.register(it.name+"_2") { ThrusterBlockItem(it.get(), Item.Properties().tab(tournamentItems.TAB)) }
-                    items.register(it.name+"_3") { ThrusterBlockItem(it.get(), Item.Properties().tab(tournamentItems.TAB)) }
-                    items.register(it.name+"_4") { ThrusterBlockItem(it.get(), Item.Properties().tab(tournamentItems.TAB)) }
-                    items.register(it.name+"_5") { ThrusterBlockItem(it.get(), Item.Properties().tab(tournamentItems.TAB)) }
-                }
-            } else {
+            //if (it.name in tier_sets) {
+            //    if (it.name in no_tab) {
+            //        items.register(it.name+"_1") { ThrusterBlockItem(it.get(), Item.Properties()) }
+            //        items.register(it.name+"_2") { ThrusterBlockItem(it.get(), Item.Properties()) }
+            //        items.register(it.name+"_3") { ThrusterBlockItem(it.get(), Item.Properties()) }
+            //        items.register(it.name+"_4") { ThrusterBlockItem(it.get(), Item.Properties()) }
+            //        items.register(it.name+"_5") { ThrusterBlockItem(it.get(), Item.Properties()) }
+            //    } else {
+            //        items.register(it.name+"_1") { ThrusterBlockItem(it.get(), Item.Properties().tab(tournamentItems.TAB)) }
+            //        items.register(it.name+"_2") { ThrusterBlockItem(it.get(), Item.Properties().tab(tournamentItems.TAB)) }
+            //        items.register(it.name+"_3") { ThrusterBlockItem(it.get(), Item.Properties().tab(tournamentItems.TAB)) }
+            //        items.register(it.name+"_4") { ThrusterBlockItem(it.get(), Item.Properties().tab(tournamentItems.TAB)) }
+            //        items.register(it.name+"_5") { ThrusterBlockItem(it.get(), Item.Properties().tab(tournamentItems.TAB)) }
+            //    }
+            //} else {
                 if (it.name in no_tab) {
                     items.register(it.name) { BlockItem(it.get(), Item.Properties()) }
                 } else {
                     items.register(it.name) { BlockItem(it.get(), Item.Properties().tab(tournamentItems.TAB)) }
                 }
-            }
+            //}
         }
     }
 

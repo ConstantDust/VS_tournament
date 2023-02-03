@@ -19,12 +19,30 @@ object tournamentItems {
     val GRABGUN         = ITEMS.register("grab_gun", ::GrabGun)
     val THRUSTERUPGRADE = ITEMS.register("upgrade_thruster", ::ThrusterUpgrade)
 
+    private var loader: LoaderType? = null
+
     fun getTab(): CreativeModeTab {
         return this.TAB
     }
 
-    fun register(loader: LoaderType) {
+    fun getItems(): List<ItemStack> {
+        var o = ArrayList<ItemStack>()
+        ITEMS.forEach {
+            o.add(ItemStack(it.get()))
+        }
+        return o
+    }
+
+    fun preInit() {
         tournamentBlocks.registerItems(ITEMS)
+    }
+
+    fun register(loaderIn: LoaderType) {
+        loader = loaderIn
+
+        if (loader == LoaderType.FORGE) {
+            tournamentBlocks.registerItems(ITEMS)
+        }
 
         ITEMS.applyAll()
     }

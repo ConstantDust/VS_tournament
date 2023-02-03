@@ -14,12 +14,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.valkyrienskies.core.impl.config.VSConfigClass;
 import org.valkyrienskies.tournament.*;
 import org.valkyrienskies.mod.compat.clothconfig.VSClothConfig;
 import org.valkyrienskies.mod.fabric.common.ValkyrienSkiesModFabric;
 import org.valkyrienskies.tournament.api.LoaderType;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -29,8 +32,13 @@ public class tournamentModFabric implements ModInitializer {
         // force VS2 to load before tournament
         new ValkyrienSkiesModFabric().onInitialize();
 
+        tournamentMod.preInit(LoaderType.FABRIC);
+
+        List<ItemStack> il = tournamentItems.INSTANCE.getItems();
+
         tournamentItems.INSTANCE.setTAB(FabricItemGroupBuilder.create(new ResourceLocation("vs_tournament", "tournament_tab"))
                 .icon(() -> new ItemStack(tournamentBlocks.INSTANCE.getSHIPIFIER().get()))
+                .appendItems(list -> list.addAll(il))
                 .build());
 
         tournamentMod.init(LoaderType.FABRIC);

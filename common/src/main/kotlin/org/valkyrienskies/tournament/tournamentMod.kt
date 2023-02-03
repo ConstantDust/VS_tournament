@@ -7,6 +7,13 @@ object tournamentMod {
     const val MOD_ID = "vs_tournament"
 
     @JvmStatic
+    fun preInit(loader: LoaderType) {
+        if (loader == LoaderType.FABRIC) {
+            tournamentItems.preInit()
+        }
+    }
+
+    @JvmStatic
     fun init(loader: LoaderType) {
         tournamentBlocks.register()
         tournamentBlockEntities.register()
