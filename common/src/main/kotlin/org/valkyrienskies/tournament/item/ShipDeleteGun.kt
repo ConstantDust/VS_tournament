@@ -6,6 +6,7 @@ import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.context.UseOnContext
 import org.joml.Vector3d
+import org.valkyrienskies.core.api.ships.PhysShip
 import org.valkyrienskies.core.apigame.constraints.*
 import org.valkyrienskies.mod.common.allShips
 import org.valkyrienskies.mod.common.getShipObjectManagingPos
@@ -41,7 +42,6 @@ class ShipDeleteGun : Item(
         }
 
         //TODO: proper ship destroy method when triode implements it in vs2
-        ship.transform.
 
         return super.useOn(context)
     }
