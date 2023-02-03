@@ -16,16 +16,9 @@ object tournamentItems {
     val GRABGUN         = ITEMS.register("grab_gun", ::GrabGun)
     val THRUSTERUPGRADE = ITEMS.register("upgrade_thruster", ::ThrusterUpgrade)
 
-    val TAB: CreativeModeTab = object : CreativeModeTab(CreativeModeTab.TABS.size,"vs_tournament.tournament_tab") {
-        override fun makeIcon(): ItemStack? {
-            return ItemStack(tournamentBlocks.SHIPIFIER.get())
-        }
-    }
+    var TAB: CreativeModeTab = CreativeModeTab.TAB_MISC // will be created in forge / fabric mod main
 
     fun register() {
-        // TODO: mixin or something AT
-        // CreativeModeTab.TABS.size += 1
-
         tournamentBlocks.registerItems(ITEMS)
         ITEMS.applyAll()
     }

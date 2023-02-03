@@ -2,6 +2,8 @@ package org.valkyrienskies.tournament.forge;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.ConfigGuiHandler;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -11,7 +13,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.valkyrienskies.core.impl.config.VSConfigClass;
+import org.valkyrienskies.tournament.tournamentBlocks;
 import org.valkyrienskies.tournament.tournamentConfig;
+import org.valkyrienskies.tournament.tournamentItems;
 import org.valkyrienskies.tournament.tournamentMod;
 import org.valkyrienskies.mod.compat.clothconfig.VSClothConfig;
 
@@ -36,6 +40,10 @@ public class tournamentModForge {
         MOD_BUS.addListener(this::entityRenderers);
 
         tournamentMod.init();
+
+
+        tournamentItems.INSTANCE.setTAB(new tournamentTab(CreativeModeTab.TABS.length, "vs_tournament.tournament_tab"));
+
     }
 
     void clientSetup(final FMLClientSetupEvent event) {
@@ -51,5 +59,15 @@ public class tournamentModForge {
 
     void onModelRegistry(final ModelRegistryEvent event) {
 
+    }
+}
+class tournamentTab extends CreativeModeTab {
+    public tournamentTab(int i, String string) {
+        super(i, string);
+    }
+
+    @Override
+    public ItemStack makeIcon() {
+        return new ItemStack(tournamentBlocks.INSTANCE.getSHIPIFIER().get().asItem());
     }
 }

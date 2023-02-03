@@ -38,6 +38,6 @@ object tournamentWeights : BlockStateInfoProvider {
 
     fun register() {
         Registry.register(BlockStateInfo.REGISTRY, ResourceLocation(tournamentMod.MOD_ID, "ballast"), tournamentWeights)
-        Registry.register(BlockStateInfo.REGISTRY, ResourceLocation(tournamentMod.MOD_ID, "hinge_top"), tournamentWeights)
+        //Registry.register(BlockStateInfo.REGISTRY, ResourceLocation(tournamentMod.MOD_ID, "hinge_top"), tournamentWeights)
     }
 }
