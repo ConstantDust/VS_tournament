@@ -20,12 +20,14 @@ import org.valkyrienskies.tournament.tournamentItems
 class ShipDeleteGun : Item(
         Properties().stacksTo(1).tab(tournamentItems.getTab())
 ){
+    private var deletionForce : Vector3d? = null
 
     override fun useOn(context: UseOnContext): InteractionResult {
         val force = tournamentConfig.SERVER.pulseGunForce
 
         val player = context.player
         val blockPosition = context.clickedPos
+        val blockLocation = context.clickLocation.toJOML()
 
         if(blockPosition == null || context.level.isClientSide || player == null) {
             return InteractionResult.PASS
@@ -41,7 +43,9 @@ class ShipDeleteGun : Item(
             return InteractionResult.PASS
         }
 
-        //TODO: proper ship destroy method when triode implements it in vs2
+        deletionForce = player.lookAngle.toJOML().normalize().mul(1e+12)
+
+        tournamentShipControl.getOrCreate(ship).addPulse(blockLocation, deletionForce!!)
 
         return super.useOn(context)
     }
