@@ -11,12 +11,17 @@ import net.fabricmc.fabric.api.client.model.BakedModelManagerHelper;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.valkyrienskies.core.impl.config.VSConfigClass;
 import org.valkyrienskies.tournament.*;
 import org.valkyrienskies.mod.compat.clothconfig.VSClothConfig;
 import org.valkyrienskies.mod.fabric.common.ValkyrienSkiesModFabric;
+import org.valkyrienskies.tournament.api.LoaderType;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 public class tournamentModFabric implements ModInitializer {
     @Override
@@ -28,7 +33,8 @@ public class tournamentModFabric implements ModInitializer {
                 .icon(() -> new ItemStack(tournamentBlocks.INSTANCE.getSHIPIFIER().get()))
                 .build());
 
-        tournamentMod.init();
+        tournamentMod.init(LoaderType.FABRIC);
+
     }
 
     @Environment(EnvType.CLIENT)

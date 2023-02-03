@@ -17,6 +17,8 @@ object tournamentBlockEntities {
     private val BLOCKENTITIES = DeferredRegister.create(tournamentMod.MOD_ID, Registry.BLOCK_ENTITY_TYPE_REGISTRY)
 
     val SENSOR = tournamentBlocks.SENSOR withBE ::SensorBlockEntity byName "sensor"
+    // commented out bc constantdust MESSED UP GRADLE!!!!!! TODO: uncomment when gradle fixed
+    //val HINGE = tournamentBlocks.HINGE withBE ::HingeBlockEntity byName "sensor"
 
     fun register() {
         BLOCKENTITIES.applyAll()

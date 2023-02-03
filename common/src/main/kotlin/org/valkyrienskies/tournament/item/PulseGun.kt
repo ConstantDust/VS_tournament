@@ -14,7 +14,7 @@ import org.valkyrienskies.tournament.tournamentConfig
 import org.valkyrienskies.tournament.tournamentItems
 
 class PulseGun : Item(
-    Properties().stacksTo(1).tab(tournamentItems.TAB)
+    Properties().stacksTo(1).tab(tournamentItems.getTab())
 ){
 
     private var pulseForce : Vector3d? = null

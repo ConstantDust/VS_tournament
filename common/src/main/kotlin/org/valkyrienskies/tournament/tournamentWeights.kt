@@ -31,13 +31,16 @@ object tournamentWeights : BlockStateInfoProvider {
     }
 
     override fun getBlockStateType(blockState: BlockState): BlockType? {
-        if (blockState.block == tournamentBlocks.HINGE_TOP.get())
-            return vsCore.blockTypes.air
+        // commented out bc constantdust MESSED UP GRADLE!!!!!! TODO: uncomment when gradle fixed
+
+        //if (blockState.block == tournamentBlocks.HINGE_TOP.get())
+        //    return vsCore.blockTypes.air
         return null
     }
 
     fun register() {
         Registry.register(BlockStateInfo.REGISTRY, ResourceLocation(tournamentMod.MOD_ID, "ballast"), tournamentWeights)
+        //TODO: uncomment + fix to fix hinges (after gradle fixed)
         //Registry.register(BlockStateInfo.REGISTRY, ResourceLocation(tournamentMod.MOD_ID, "hinge_top"), tournamentWeights)
     }
 }

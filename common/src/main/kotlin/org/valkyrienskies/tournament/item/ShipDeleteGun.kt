@@ -17,7 +17,7 @@ import org.valkyrienskies.tournament.tournamentConfig
 import org.valkyrienskies.tournament.tournamentItems
 
 class ShipDeleteGun : Item(
-        Properties().stacksTo(1).tab(tournamentItems.TAB)
+        Properties().stacksTo(1).tab(tournamentItems.getTab())
 ){
 
     override fun useOn(context: UseOnContext): InteractionResult {
@@ -40,7 +40,8 @@ class ShipDeleteGun : Item(
             return InteractionResult.PASS
         }
 
-        //TODO: add ship destroy feature
+        //TODO: proper ship destroy method when triode implements it in vs2
+        ship.transform.
 
         return super.useOn(context)
     }

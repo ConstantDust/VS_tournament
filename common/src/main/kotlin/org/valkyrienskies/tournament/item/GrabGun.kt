@@ -28,7 +28,7 @@ import org.valkyrienskies.tournament.tournamentItems
 
 
 class GrabGun : Item(
-        Properties().stacksTo(1).tab(tournamentItems.TAB)
+        Properties().stacksTo(1).tab(tournamentItems.getTab())
 ) {
 
     var CurrentPlayer : Player? = null
@@ -50,6 +50,7 @@ class GrabGun : Item(
     override fun useOn(context: UseOnContext): InteractionResult {
         if(grabbing) {
             grabbing = false
+            OnDropConstraints(context.level)
         } else {
             CurrentPlayer = context.player
             val level = context.level

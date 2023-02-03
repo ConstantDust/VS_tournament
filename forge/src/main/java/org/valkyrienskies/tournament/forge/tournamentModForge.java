@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.valkyrienskies.core.impl.config.VSConfigClass;
+import org.valkyrienskies.tournament.api.LoaderType;
 import org.valkyrienskies.tournament.tournamentBlocks;
 import org.valkyrienskies.tournament.tournamentConfig;
 import org.valkyrienskies.tournament.tournamentItems;
@@ -39,7 +40,7 @@ public class tournamentModForge {
         MOD_BUS.addListener(this::clientSetup);
         MOD_BUS.addListener(this::entityRenderers);
 
-        tournamentMod.init();
+        tournamentMod.init(LoaderType.FORGE);
 
 
         tournamentItems.INSTANCE.setTAB(new tournamentTab(CreativeModeTab.TABS.length, "vs_tournament.tournament_tab"));
