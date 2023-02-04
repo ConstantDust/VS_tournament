@@ -19,7 +19,7 @@ object tournamentBlocks {
     val THRUSTER            = BLOCKS.register("thruster", ::ThrusterBlock)
     val IONTHRUSTER         = BLOCKS.register("ionthruster", ::IonThrusterBlock)
     val SPINNER             = BLOCKS.register("spinner", ::SpinnerBlock)
-    val SHIPIFIER           = BLOCKS.register("shipifier", ::ShipifierBlock,)
+    val SHIPIFIER           = BLOCKS.register("shipifier", ::ShipifierBlock)
     // commented out bc constantdust MESSED UP GRADLE!!!!!! TODO: uncomment when gradle fixed
     //val HINGE       = BLOCKS.register("hinge", ::HingeBlock)
     //val HINGE_TOP   = BLOCKS.register("hinge_top", ::HingeTopBlock)
@@ -27,8 +27,9 @@ object tournamentBlocks {
     val SEAT                = BLOCKS.register("seat", ::SeatBlock)
 
     val INSTANTEXPLOSIVE    = BLOCKS.register("instantexplosive", ::InstantExplosiveBlock)
-    val STAGEDEXPLOSIVE    = BLOCKS.register("stagedexplosive", ::StagedExplosiveBlock)
     val BIGINSTANTEXPLOSIVE    = BLOCKS.register("instantexplosive_big", ::BigInstantExplosiveBlock)
+    val STAGEDEXPLOSIVE    = BLOCKS.register("stagedexplosive", ::StagedExplosiveBlock)
+    val BIGSTAGEDEXPLOSIVE    = BLOCKS.register("stagedexplosive_big", ::BigStagedExplosiveBlock)
 
     fun register() {
         no_tab.add("hinge_top")
