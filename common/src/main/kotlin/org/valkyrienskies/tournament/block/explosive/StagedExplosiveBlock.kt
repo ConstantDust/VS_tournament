@@ -35,16 +35,16 @@ class StagedExplosiveBlock : Block(
                 pos.x + 0.5,
                 pos.y + 0.5,
                 pos.z + 0.5,
-                (4..12).random().toFloat(),
+                8f,
                 Explosion.BlockInteraction.BREAK
             )
             for (i in 1..10) {
                 level.explode(
                     PrimedTnt(EntityType.TNT, level),
                     pos.x + 0.5 + (-20..20).random(),
-                    pos.y + 0.5 + (-3..3).random(),
+                    pos.y + 0.5 + (-7..4).random(),
                     pos.z + 0.5 + (-20..20).random(),
-                    (4..12).random().toFloat(),
+                    (7..15).random().toFloat(),
                     Explosion.BlockInteraction.BREAK
                 )
             }
