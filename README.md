@@ -2,4 +2,4 @@
 
 # tournament
 
-Basically Archimedes Ships, but with VS2 as the backend!
+NOT A BEYBLADE MOD! (Though you can build one if you want)
