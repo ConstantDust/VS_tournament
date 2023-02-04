@@ -2,8 +2,11 @@
 
 package org.valkyrienskies.tournament.item
 
+import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
+import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.CreativeModeTab
@@ -11,6 +14,7 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.state.BlockState
 import org.joml.Quaterniond
 import org.joml.Quaterniondc
 import org.joml.Vector3d
@@ -46,6 +50,10 @@ class GrabGun : Item(
     var thisRotationConstraintID : ConstraintId? = null
     var thisPosDampingConstraintID : ConstraintId? = null
     var thisRotDampingConstraintID : ConstraintId? = null
+
+    override fun canAttackBlock(state: BlockState, level: Level, pos: BlockPos, player: Player): Boolean {
+        return false
+    }
 
     override fun useOn(context: UseOnContext): InteractionResult {
         if(grabbing) {
@@ -84,7 +92,7 @@ class GrabGun : Item(
         if (isSelected && thisShipID != null){
             val tempShip = level.shipObjectWorld.loadedShips.getById(thisShipID!!)
 
-            if(tempShip != null) {
+            if(tempShip != null && grabbing) {
                 val MinVec = Vector3d(
                         tempShip!!.shipAABB!!.minX().toDouble(),
                         tempShip!!.shipAABB!!.minY().toDouble(),
