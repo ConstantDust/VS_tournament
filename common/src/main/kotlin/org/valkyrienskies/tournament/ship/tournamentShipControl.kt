@@ -38,7 +38,7 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
 
     private val Balloons = mutableListOf<Pair<Vector3i, Double>>()
     private val Spinners = mutableListOf<Pair<Vector3ic, Vector3dc>>()
-    private val Thrusters = mutableListOf<Triple<Vector3ic, Vector3dc, Int>>()
+    private val Thrusters = mutableListOf<Triple<Vector3ic, Vector3dc, Double>>()
     private val Pulses = CopyOnWriteArrayList<Pair<Vector3d, Vector3d>>()
 
     var consumed = 0f
@@ -134,10 +134,10 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
         Balloons.remove(pos.toJOML() to pow)
     }
 
-    fun addThruster(pos: BlockPos, tier: Int, force: Vector3dc) {
+    fun addThruster(pos: BlockPos, tier: Double, force: Vector3dc) {
         Thrusters.add(Triple(pos.toJOML(), force, tier))
     }
-    fun removeThruster(pos: BlockPos, tier: Int,force: Vector3dc) {
+    fun removeThruster(pos: BlockPos, tier: Double,force: Vector3dc) {
         Thrusters.remove(Triple(pos.toJOML(), force, tier))
     }
 
