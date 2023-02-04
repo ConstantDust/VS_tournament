@@ -130,9 +130,9 @@ class ThrusterBlock : DirectionalBlock (
         if (state.getValue(BlockStateProperties.POWER) > 0) {
             val dir = state.getValue(FACING)
 
-            val x = pos.x.toDouble() + (0.5 * (dir.stepX - 1));
-            val y = pos.y.toDouble() + (0.5 * (dir.stepY - 1));
-            val z = pos.z.toDouble() + (0.5 * (dir.stepZ - 1));
+            val x = pos.x.toDouble() + (0.5 * (dir.stepX + 1));
+            val y = pos.y.toDouble() + (0.5 * (dir.stepY + 1));
+            val z = pos.z.toDouble() + (0.5 * (dir.stepZ + 1));
             val speedX = dir.stepX * -0.4
             val speedY = dir.stepY * -0.4
             val speedZ = dir.stepZ * -0.4

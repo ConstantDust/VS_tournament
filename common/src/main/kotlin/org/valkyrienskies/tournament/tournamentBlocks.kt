@@ -24,10 +24,10 @@ object tournamentBlocks {
     //val HINGE_TOP   = BLOCKS.register("hinge_top", ::HingeTopBlock)
     val SENSOR        = BLOCKS.register("sensor", ::SensorBlock)
     val SEAT        = BLOCKS.register("seat", ::SeatBlock)
+    val ROPEHOOK     = BLOCKS.register("rope_hook", ::RopeHookBlock)
 
     fun register() {
         no_tab.add("hinge_top")
-
         tier_sets.add("thruster")
 
         BLOCKS.applyAll()
