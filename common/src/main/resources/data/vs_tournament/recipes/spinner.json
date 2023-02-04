@@ -1,23 +1,23 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "#C#",
-        "CRC",
-        "#C#"
+        "###",
+        "iCi",
+        "###"
     ],
     "key": {
         "#": {
-            "item": "minecraft:stone"
+            "item": "minecraft:redstone"
+        },
+        "i": {
+            "item": "minecraft:iron_ingot"
         },
         "C": {
             "item": "minecraft:cobblestone"
-        },
-        "R": {
-            "item": "minecraft:redstone"
         }
     },
     "result": {
-        "item": "vs_tournament:ballast",
+        "item": "vs_tournament:spinner",
         "count": 1
     }
 }

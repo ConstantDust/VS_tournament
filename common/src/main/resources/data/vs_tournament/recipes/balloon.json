@@ -1,23 +1,20 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "#C#",
-        "CRC",
-        "#C#"
+        " # ",
+        "#R#",
+        " # "
     ],
     "key": {
         "#": {
-            "item": "minecraft:stone"
-        },
-        "C": {
-            "item": "minecraft:cobblestone"
+            "item": "minecraft:white_wool"
         },
         "R": {
             "item": "minecraft:redstone"
         }
     },
     "result": {
-        "item": "vs_tournament:ballast",
+        "item": "vs_tournament:balloon",
         "count": 1
     }
 }
