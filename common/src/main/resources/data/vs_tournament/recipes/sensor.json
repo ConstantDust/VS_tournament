@@ -1,23 +1,23 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "#C#",
-        "CRC",
-        "#C#"
+        "iEi",
+        "iRi",
+        "iRi"
     ],
     "key": {
-        "#": {
-            "item": "minecraft:stone"
+        "i": {
+            "item": "minecraft:iron_ingot"
         },
-        "C": {
-            "item": "minecraft:cobblestone"
+        "E": {
+            "item": "minecraft:ender_eye"
         },
         "R": {
             "item": "minecraft:redstone"
         }
     },
     "result": {
-        "item": "vs_tournament:ballast",
+        "item": "vs_tournament:sensor",
         "count": 1
     }
 }

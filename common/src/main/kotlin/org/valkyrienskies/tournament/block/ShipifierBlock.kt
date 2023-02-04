@@ -59,7 +59,9 @@ class ShipifierBlock : Block(
         if (level as? ServerLevel == null) return
 
         val signal = level.getBestNeighborSignal(pos)
-        asm(level, pos)
+        if (signal > 0) {
+            asm(level, pos)
+        }
     }
 
 }

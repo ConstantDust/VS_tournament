@@ -8,6 +8,10 @@
     "mass": 400.0
   },
   {
+    "block": "vs_tournament:ionthruster",
+    "mass": 400.0
+  },
+  {
     "block": "vs_tournament:shipifier",
     "mass": 200.0
   }]

@@ -90,7 +90,7 @@ class ThrusterBlock : DirectionalBlock (
         level.setBlock(pos, state.setValue(BlockStateProperties.POWER, signal), 2)
 
         tournamentShipControl.getOrCreate(level.getShipObjectManagingPos(pos) ?: level.getShipManagingPos(pos) ?: return
-        )?.addThruster(pos, state.getValue(TournamentBlockstateProperties.TIER), state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER).toDouble()))
+        )?.addThruster(pos, state.getValue(TournamentBlockstateProperties.TIER).toDouble(), state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER).toDouble()))
     }
 
     override fun onRemove(state: BlockState, level: Level, pos: BlockPos, newState: BlockState, isMoving: Boolean) {
@@ -100,7 +100,7 @@ class ThrusterBlock : DirectionalBlock (
         level as ServerLevel
 
         state.setValue(BlockStateProperties.POWER, 0)
-        level.getShipManagingPos(pos)?.getAttachment<tournamentShipControl>()?.removeThruster(pos, state.getValue(TournamentBlockstateProperties.TIER),state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER).toDouble()))
+        level.getShipManagingPos(pos)?.getAttachment<tournamentShipControl>()?.removeThruster(pos, state.getValue(TournamentBlockstateProperties.TIER).toDouble(),state.getValue(FACING).normal.toJOMLD().mul(state.getValue(BlockStateProperties.POWER).toDouble()))
         level.getShipManagingPos(pos)?.getAttachment<tournamentShipControl>()?.forceStopThruster( pos )
     }
 

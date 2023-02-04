@@ -3,9 +3,15 @@
   "block.vs_tournament.balloon": "Balloon",
   "block.vs_tournament.spinner": "Spinner",
   "block.vs_tournament.thruster": "Thruster",
-  "block.vs_tournament.shipifier": "Shipifier",
+  "block.vs_tournament.ionthruster": "Ion-Thruster",
+  "block.vs_tournament.shipifier": "Ship Assembler",
   "block.vs_tournament.hinge": "Hinge",
   "block.vs_tournament.seat": "Seat",
+  "block.vs_tournament.sensor": "Distance Sensor",
+
+  "block.vs_tournament.instantexplosive": "Instant Explosive (small)",
+  "block.vs_tournament.instantexplosive_big": "Instant Explosive (big)",
+  "block.vs_tournament.stagedexplosive": "Staged Explosive (medium)",
 
   "itemGroup.vs_tournament.tournament_tab": "VS Tournament",
 
