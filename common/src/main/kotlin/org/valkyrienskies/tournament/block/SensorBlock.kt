@@ -18,7 +18,6 @@ import org.valkyrienskies.tournament.api.TournamentBlockstateProperties
 import org.valkyrienskies.tournament.blockentity.SensorBlockEntity
 import org.valkyrienskies.tournament.util.DirectionalShape
 import org.valkyrienskies.tournament.util.RotShapes
-import java.util.*
 
 class SensorBlock : BaseEntityBlock(
     Properties.of(Material.STONE)
@@ -39,7 +38,6 @@ class SensorBlock : BaseEntityBlock(
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
         builder.add(FACING)
         builder.add(BlockStateProperties.POWER)
-        builder.add(TournamentBlockstateProperties.TIER)
         super.createBlockStateDefinition(builder)
     }
 
