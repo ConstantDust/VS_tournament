@@ -9,9 +9,4 @@ import org.jetbrains.annotations.NotNull;
 import org.valkyrienskies.tournament.services.tournamentPlatformHelper;
 
 public class tournamentPlatformHelperFabric implements tournamentPlatformHelper {
-    @NotNull
-    @Override
-    public CreativeModeTab createCreativeTab(@NotNull ResourceLocation id, @NotNull Function0<ItemStack> stack) {
-        return FabricItemGroupBuilder.build(id, stack::invoke);
-    }
 }

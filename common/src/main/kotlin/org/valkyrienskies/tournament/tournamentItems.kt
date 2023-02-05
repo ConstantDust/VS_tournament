@@ -12,14 +12,8 @@ import org.valkyrienskies.tournament.registry.DeferredRegister
 @Suppress("unused")
 object tournamentItems {
     private val ITEMS = DeferredRegister.create(tournamentMod.MOD_ID, Registry.ITEM_REGISTRY)
-    var TAB: CreativeModeTab = CreativeModeTab.TAB_MISC // will be created in forge / fabric mod main
 
-    /*CreativeTabs.create(
-        ResourceLocation(
-            tournamentMod.MOD_ID,
-            "tournament_tab"
-        )
-    ) { ItemStack(tournamentBlocks.SHIPIFIER.get()) }*/
+    var TAB: CreativeModeTab = CreativeModeTab.TAB_MISC // will be created in forge / fabric mod main
 
     val ROPE        = ITEMS.register("rope", ::Rope)
     val PULSEGUN        = ITEMS.register("pulse_gun", ::PulseGun)
@@ -41,7 +35,9 @@ object tournamentItems {
         return o
     }
 
-    fun preInit() {}
+    fun preInit() {
+        tournamentBlocks.registerItems(ITEMS)
+    }
 
 //    fun register() {
 //
