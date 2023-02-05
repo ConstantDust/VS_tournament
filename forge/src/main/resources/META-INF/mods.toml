@@ -7,7 +7,7 @@ license = "Apache-2.0"
 modId = "vs_tournament"
 version = "${version}"
 displayName = "VS Tournament Mod"
-authors = ["ConstantDust", "alex_s168"]
+authors = ["ConstantDust", "alex_s168", "Blue - IE DEV (Rendering)"]
 description = '''
 A minecraft Compitition mod!!
 '''
