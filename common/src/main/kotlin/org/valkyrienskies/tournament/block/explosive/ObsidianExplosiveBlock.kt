@@ -2,16 +2,16 @@ package org.valkyrienskies.tournament.block.explosive
 
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.item.PrimedTnt
-import net.minecraft.world.level.Explosion
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.SoundType
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.material.Material
+import org.valkyrienskies.tournament.api.algo2d
+import org.valkyrienskies.tournament.api.Helper2d
+import org.valkyrienskies.tournament.api.Helper3d
 
-class BigStagedExplosiveBlock : Block(
+class ObsidianExplosiveBlock  : Block(
     Properties.of(Material.METAL)
         .sound(SoundType.METAL).strength(1.0f, 2.0f)
 ) {
@@ -30,23 +30,11 @@ class BigStagedExplosiveBlock : Block(
 
         val signal = level.getBestNeighborSignal(pos)
         if (signal > 0) {
-            level.explode(
-                PrimedTnt(EntityType.TNT, level),
-                pos.x + 0.5,
-                pos.y + 0.5,
-                pos.z + 0.5,
-                8f,
-                Explosion.BlockInteraction.BREAK
-            )
-            for (i in 1..30) {
-                level.explode(
-                    PrimedTnt(EntityType.TNT, level),
-                    pos.x + 0.5 + (-40..40).random(),
-                    pos.y + 0.5 + (-20..4).random(),
-                    pos.z + 0.5 + (-40..40).random(),
-                    (12..20).random().toFloat(),
-                    Explosion.BlockInteraction.BREAK
-                )
+            val o = algo2d.filledCircle( Helper2d.vec3to2(Helper3d.PositionToVec(pos)), 10.0 )
+            o?.forEach {
+                val pos = Helper3d.VecToPosition(Helper2d.vec2to3(it, pos.y-1.0))
+                level.removeBlockEntity(pos)
+                level.removeBlock(pos, false)
             }
         }
     }

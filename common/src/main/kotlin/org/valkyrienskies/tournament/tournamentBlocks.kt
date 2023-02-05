@@ -30,6 +30,7 @@ object tournamentBlocks {
     val BIGINSTANTEXPLOSIVE = BLOCKS.register("instantexplosive_big", ::BigInstantExplosiveBlock)
     val STAGEDEXPLOSIVE     = BLOCKS.register("stagedexplosive", ::StagedExplosiveBlock)
     val BIGSTAGEDEXPLOSIVE  = BLOCKS.register("stagedexplosive_big", ::BigStagedExplosiveBlock)
+    val OBSIDIANEXPLOSIVE    = BLOCKS.register("obsidianexplosive", ::ObsidianExplosiveBlock)
 
 
     fun register() {
@@ -42,23 +43,11 @@ object tournamentBlocks {
 
     fun registerItems(items: DeferredRegister<Item>) {
         BLOCKS.forEach {
-            //if (it.name in tier_sets) {
-            //    if (it.name in no_tab) {
-            //        for (t in 1..5) {
-            //            items.register(it.name + "_$t") { ThrusterBlockItem(it.get(), Item.Properties()) }
-            //        }
-            //    } else {
-            //        for (t in 1..5) {
-            //            items.register(it.name + "_$t") { ThrusterBlockItem(it.get(), Item.Properties().tab(tournamentItems.TAB)) }
-            //        }
-            //    }
-            //} else {
-                if (it.name in no_tab) {
-                    items.register(it.name) { BlockItem(it.get(), Item.Properties()) }
-                } else {
-                    items.register(it.name) { BlockItem(it.get(), Item.Properties().tab(tournamentItems.TAB)) }
-                }
-            //}
+            if (it.name in no_tab) {
+                items.register(it.name) { BlockItem(it.get(), Item.Properties()) }
+            } else {
+                items.register(it.name) { BlockItem(it.get(), Item.Properties().tab(tournamentItems.TAB)) }
+            }
         }
     }
 
