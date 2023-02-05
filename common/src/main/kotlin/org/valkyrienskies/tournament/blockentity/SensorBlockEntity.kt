@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.level.ClipContext
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
@@ -68,6 +69,7 @@ class SensorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(tourname
 
 
     override fun getUpdateTag(): CompoundTag {
+        if ((blockState.getValue(LEVEL) as Level).isClientSide) {super.getUpdateTag()}
         GetResult(blockState.getValue(LEVEL) as ServerLevel)
         return super.getUpdateTag()
     }

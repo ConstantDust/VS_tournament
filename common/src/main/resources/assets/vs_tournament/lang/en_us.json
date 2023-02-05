@@ -3,7 +3,7 @@
   "block.vs_tournament.balloon": "Balloon",
   "block.vs_tournament.spinner": "Spinner",
   "block.vs_tournament.thruster": "Thruster",
-  "block.vs_tournament.ionthruster": "Ion-Thruster",
+  "block.vs_tournament.ionthruster": "Tiny Thruster",
   "block.vs_tournament.shipifier": "Ship Assembler",
   "block.vs_tournament.hinge": "Hinge",
   "block.vs_tournament.seat": "Seat",
@@ -18,7 +18,7 @@
   "itemGroup.vs_tournament.tournament_tab": "VS Tournament",
 
   "item.vs_tournament.pulse_gun": "Pulse Gun",
-  "item.vs_tournament.delete_gun": "Deletation Gun",
+  "item.vs_tournament.delete_gun": "Deleting Tool",
   "item.vs_tournament.grab_gun": "Gravity Gun",
   "item.vs_tournament.upgrade_thruster": "Thruster Upgrade",
   "item.vs_tournament.rope": "Rope"

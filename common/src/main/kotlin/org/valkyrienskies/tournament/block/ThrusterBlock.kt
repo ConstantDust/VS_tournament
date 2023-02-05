@@ -63,10 +63,21 @@ class ThrusterBlock : DirectionalBlock (
             if (level.isClientSide) return InteractionResult.SUCCESS
             level as ServerLevel
 
-            level.setBlock(pos, state.setValue(TournamentBlockstateProperties.TIER, (state.getValue(TournamentBlockstateProperties.TIER)+1).coerceIn(1,5) ), 1)
+            if (state.getValue(TournamentBlockstateProperties.TIER) != 5) {
 
-            print(level.getBlockState(pos).getValue(TournamentBlockstateProperties.TIER))
-            return InteractionResult.CONSUME
+                level.setBlock(
+                    pos,
+                    state.setValue(
+                        TournamentBlockstateProperties.TIER,
+                        (state.getValue(TournamentBlockstateProperties.TIER) + 1).coerceIn(1, 5)
+                    ),
+                    1
+                )
+
+                print(level.getBlockState(pos).getValue(TournamentBlockstateProperties.TIER))
+                return InteractionResult.CONSUME
+            }
+            return InteractionResult.PASS
         }
         else {
             return InteractionResult.PASS
