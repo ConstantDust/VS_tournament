@@ -16,6 +16,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.material.Material
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
+import org.valkyrienskies.mod.common.shipObjectWorld
+import org.valkyrienskies.physics_api.ConstraintId
 import org.valkyrienskies.tournament.util.DirectionalShape
 import org.valkyrienskies.tournament.util.RotShapes
 
@@ -25,8 +27,9 @@ class RopeHookBlock : DirectionalBlock(
 ) {
 
     val SHAPE = RotShapes.box(0.25, 0.0, 0.25, 15.75, 16.0, 15.75)
-
     val ROPEATTACH_SHAPE = DirectionalShape.north(SHAPE)
+
+    private var ropeId: ConstraintId? = null
 
     init {
         registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.POWER, 0))
@@ -64,7 +67,15 @@ class RopeHookBlock : DirectionalBlock(
         if (level.isClientSide) return
         level as ServerLevel
 
-        
+        // delets any existing ropes
+        ropeId?.let { level.shipObjectWorld.removeConstraint(it) }
+        ropeId = null
+    }
+
+    // sets the rope for deletion purposes
+    fun SetRopeId(rope: ConstraintId){
+        println("Block>> " + rope)
+        ropeId = rope
     }
 
     override fun neighborChanged(
