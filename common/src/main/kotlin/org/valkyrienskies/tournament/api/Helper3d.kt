@@ -36,7 +36,7 @@ object Helper3d {
     }
 
     fun drawParticleLine(a: Vector3d, b: Vector3d, level: Level, particle: ParticleOptions) {
-        val le = a.distance(b) * 3
+        val le = a.distance(b) * 5
         for (i in 1..le.toInt()) {
             val pos = a.lerp(b, i / le)
             level.addParticle(particle, pos.x, pos.y, pos.z, 0.0, 0.0, 0.0)
