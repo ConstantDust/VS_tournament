@@ -54,7 +54,7 @@ class RopeHookBlock : DirectionalBlock(
             val p1 = Helper3d.MaybeShipToWorldspace(level, MainPos!!)
             val p2 = Helper3d.MaybeShipToWorldspace(level, OtherPos!!)
 
-            Helper3d.drawQuadraticParticleCurve(p1, p2, maxLen, level, ParticleTypes.CLOUD)
+            Helper3d.drawQuadraticParticleCurve(p1, p2, maxLen, 1.0, level, ParticleTypes.CLOUD)
         }
     }
 

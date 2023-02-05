@@ -43,10 +43,10 @@ object Helper3d {
         }
     }
 
-    fun drawQuadraticParticleCurve(A: Vector3d, B: Vector3d, length: Double, level: Level, particle: ParticleOptions) {
-        val lengthAB = A.distance(B) * 3
+    fun drawQuadraticParticleCurve(A: Vector3d, B: Vector3d, length: Double, segments:Double , level: Level, particle: ParticleOptions) {
+        val lengthAB = A.distance(B) * segments
         var C = A.lerp(B, 0.5)
-        C.y -= length * 3 - lengthAB
+        C.y -= length * segments - lengthAB
 
         for (i in 1..lengthAB.toInt()) {
             val t = i / lengthAB
