@@ -15,8 +15,14 @@ import net.minecraft.world.level.material.Material
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
 import org.joml.Vector3d
+import org.valkyrienskies.core.api.ships.getAttachment
+import org.valkyrienskies.mod.common.getShipManagingPos
+import org.valkyrienskies.mod.common.getShipObjectManagingPos
 import org.valkyrienskies.mod.common.shipObjectWorld
+import org.valkyrienskies.mod.common.util.toJOML
+import org.valkyrienskies.mod.common.util.toJOMLD
 import org.valkyrienskies.physics_api.ConstraintId
+import org.valkyrienskies.tournament.ship.tournamentShipControl
 import org.valkyrienskies.tournament.util.DirectionalShape
 import org.valkyrienskies.tournament.util.RotShapes
 import java.util.*
@@ -30,6 +36,8 @@ class RopeHookBlock : DirectionalBlock(
     val ROPEATTACH_SHAPE = DirectionalShape.north(SHAPE)
 
     private var ropeId: ConstraintId? = null
+    private var MainPos:Vector3d? = null
+    private var OtherPos:Vector3d? = null
 
     init {
         registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.POWER, 0))
@@ -58,7 +66,6 @@ class RopeHookBlock : DirectionalBlock(
         val signal = level.getBestNeighborSignal(pos)
         level.setBlock(pos, state.setValue(BlockStateProperties.POWER, signal), 2)
 
-
     }
 
     override fun onRemove(state: BlockState, level: Level, pos: BlockPos, newState: BlockState, isMoving: Boolean) {
@@ -67,15 +74,21 @@ class RopeHookBlock : DirectionalBlock(
         if (level.isClientSide) return
         level as ServerLevel
 
+        state.setValue(BlockStateProperties.POWER, 0)
+
         // delets any existing ropes
         ropeId?.let { level.shipObjectWorld.removeConstraint(it) }
         ropeId = null
+        OtherPos = null
+        MainPos = null
     }
 
     // sets the rope for deletion purposes
-    fun SetRopeId(rope: ConstraintId) {
+    fun SetRopeId(rope: ConstraintId, main:Vector3d?, other:Vector3d?) {
         println("Block>> " + rope)
         ropeId = rope
+        OtherPos = other
+        MainPos = main
     }
 
 

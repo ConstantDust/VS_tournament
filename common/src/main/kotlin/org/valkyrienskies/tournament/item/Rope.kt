@@ -109,7 +109,7 @@ class Rope : Item(
 
             val RopeConstraintId = level.shipObjectWorld.createNewConstraint(RopeConstraint)
             ropeConstraintId = RopeConstraintId
-            RopeConstraintId?.let { hookBlock.SetRopeId(it) }
+            RopeConstraintId?.let { hookBlock.SetRopeId(it, PosA, PosB) }
 
 
             clickedPosition = null
