@@ -7,10 +7,10 @@
     ],
     "key": {
         "#": {
-            "item": "minecraft:wool"
+            "tag": "minecraft:wool"
         },
         "O": {
-            "item": "minecraft:planks"
+            "tag": "minecraft:planks"
         }
     },
     "result": {

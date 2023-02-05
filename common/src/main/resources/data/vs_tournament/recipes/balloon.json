@@ -7,7 +7,7 @@
     ],
     "key": {
         "#": {
-            "item": "minecraft:wool"
+            "item": "tag:wool"
         },
         "R": {
             "item": "minecraft:redstone"

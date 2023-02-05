@@ -22,10 +22,13 @@ import org.valkyrienskies.mod.common.shipObjectWorld
 import org.valkyrienskies.mod.common.util.toJOML
 import org.valkyrienskies.mod.common.util.toJOMLD
 import org.valkyrienskies.physics_api.ConstraintId
+import org.valkyrienskies.tournament.api.Bresenham3D
+import org.valkyrienskies.tournament.api.Helper3d
 import org.valkyrienskies.tournament.ship.tournamentShipControl
 import org.valkyrienskies.tournament.util.DirectionalShape
 import org.valkyrienskies.tournament.util.RotShapes
 import java.util.*
+import kotlin.collections.ArrayList
 
 class RopeHookBlock : DirectionalBlock(
     Properties.of(Material.STONE)
@@ -39,8 +42,20 @@ class RopeHookBlock : DirectionalBlock(
     private var MainPos:Vector3d? = null
     private var OtherPos:Vector3d? = null
 
+    private var maxLen: Double = 0.0
+
     init {
         registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.POWER, 0))
+    }
+
+    override fun animateTick(state: BlockState, level: Level, pos: BlockPos, random: Random) {
+        super.animateTick(state, level, pos, random)
+        if (OtherPos != null) {
+            val p1 = Helper3d.MaybeShipToWorldspace(level, MainPos!!)
+            val p2 = Helper3d.MaybeShipToWorldspace(level, OtherPos!!)
+
+            Helper3d.drawQuadraticParticleCurve(p1, p2, maxLen, level, ParticleTypes.CLOUD)
+        }
     }
 
     override fun getRenderShape(blockState: BlockState): RenderShape {
@@ -89,6 +104,7 @@ class RopeHookBlock : DirectionalBlock(
         ropeId = rope
         OtherPos = other
         MainPos = main
+        maxLen = other!!.distance(main)
     }
 
 

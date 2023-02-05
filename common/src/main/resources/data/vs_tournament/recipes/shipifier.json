@@ -10,7 +10,7 @@
             "item": "minecraft:redstone"
         },
         "O": {
-            "item": "minecraft:planks"
+            "tag": "minecraft:planks"
         },
         "D": {
             "item": "minecraft:diamond_block"

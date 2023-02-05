@@ -23,17 +23,18 @@ object tournamentBlocks {
     // commented out bc constantdust MESSED UP GRADLE!!!!!! TODO: uncomment when gradle fixed
     //val HINGE       = BLOCKS.register("hinge", ::HingeBlock)
     //val HINGE_TOP   = BLOCKS.register("hinge_top", ::HingeTopBlock)
-    val SEAT        = BLOCKS.register("seat", ::SeatBlock)
-    val ROPEHOOK     = BLOCKS.register("rope_hook", ::RopeHookBlock)
+    val SEAT                = BLOCKS.register("seat", ::SeatBlock)
+    val ROPEHOOK            = BLOCKS.register("rope_hook", ::RopeHookBlock)
     val SENSOR              = BLOCKS.register("sensor", ::SensorBlock)
     val INSTANTEXPLOSIVE    = BLOCKS.register("instantexplosive", ::InstantExplosiveBlock)
-    val BIGINSTANTEXPLOSIVE    = BLOCKS.register("instantexplosive_big", ::BigInstantExplosiveBlock)
-    val STAGEDEXPLOSIVE    = BLOCKS.register("stagedexplosive", ::StagedExplosiveBlock)
-    val BIGSTAGEDEXPLOSIVE    = BLOCKS.register("stagedexplosive_big", ::BigStagedExplosiveBlock)
+    val BIGINSTANTEXPLOSIVE = BLOCKS.register("instantexplosive_big", ::BigInstantExplosiveBlock)
+    val STAGEDEXPLOSIVE     = BLOCKS.register("stagedexplosive", ::StagedExplosiveBlock)
+    val BIGSTAGEDEXPLOSIVE  = BLOCKS.register("stagedexplosive_big", ::BigStagedExplosiveBlock)
 
 
     fun register() {
         no_tab.add("hinge_top")
+
         tier_sets.add("thruster")
 
         BLOCKS.applyAll()
