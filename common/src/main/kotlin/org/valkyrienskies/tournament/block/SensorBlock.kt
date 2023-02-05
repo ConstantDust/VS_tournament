@@ -23,7 +23,7 @@ class SensorBlock : BaseEntityBlock(
     Properties.of(Material.STONE)
         .sound(SoundType.STONE).strength(1.0f, 2.0f)
 ) {
-//
+
     val SHAPE = RotShapes.box(0.0, 0.25, 0.0, 16.0, 15.75, 16.0)
     val Sensor_SHAPE = DirectionalShape.north(SHAPE)
 

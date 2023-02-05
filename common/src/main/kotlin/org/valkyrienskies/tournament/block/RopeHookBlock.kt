@@ -15,9 +15,16 @@ import net.minecraft.world.level.material.Material
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
 import org.joml.Vector3d
+import org.valkyrienskies.core.api.ships.getAttachment
+import org.valkyrienskies.mod.common.getShipManagingPos
+import org.valkyrienskies.mod.common.getShipObjectManagingPos
 import org.valkyrienskies.mod.common.shipObjectWorld
+import org.valkyrienskies.mod.common.util.toJOML
+import org.valkyrienskies.mod.common.util.toJOMLD
 import org.valkyrienskies.physics_api.ConstraintId
+import org.valkyrienskies.tournament.api.Bresenham3D
 import org.valkyrienskies.tournament.api.Helper3d
+import org.valkyrienskies.tournament.ship.tournamentShipControl
 import org.valkyrienskies.tournament.util.DirectionalShape
 import org.valkyrienskies.tournament.util.RotShapes
 import java.util.*
@@ -47,7 +54,7 @@ class RopeHookBlock : DirectionalBlock(
             val p1 = Helper3d.MaybeShipToWorldspace(level, MainPos!!)
             val p2 = Helper3d.MaybeShipToWorldspace(level, OtherPos!!)
 
-            Helper3d.drawParticleLine(p1, p2, level, ParticleTypes.CLOUD)
+            Helper3d.drawQuadraticParticleCurve(p1, p2, maxLen, 1.0, level, ParticleTypes.CLOUD)
         }
     }
 
@@ -99,6 +106,7 @@ class RopeHookBlock : DirectionalBlock(
         MainPos = main
         maxLen = other!!.distance(main)
     }
+
 
     override fun neighborChanged(
         state: BlockState,
