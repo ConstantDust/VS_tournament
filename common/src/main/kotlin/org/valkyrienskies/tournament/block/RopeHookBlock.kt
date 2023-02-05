@@ -2,24 +2,24 @@ package org.valkyrienskies.tournament.block
 
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.DirectionalBlock
-import net.minecraft.world.level.block.RenderShape
-import net.minecraft.world.level.block.SoundType
+import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.material.Material
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
+import org.joml.Vector3d
 import org.valkyrienskies.mod.common.shipObjectWorld
 import org.valkyrienskies.physics_api.ConstraintId
 import org.valkyrienskies.tournament.util.DirectionalShape
 import org.valkyrienskies.tournament.util.RotShapes
+import java.util.*
 
 class RopeHookBlock : DirectionalBlock(
     Properties.of(Material.STONE)
@@ -73,10 +73,11 @@ class RopeHookBlock : DirectionalBlock(
     }
 
     // sets the rope for deletion purposes
-    fun SetRopeId(rope: ConstraintId){
+    fun SetRopeId(rope: ConstraintId) {
         println("Block>> " + rope)
         ropeId = rope
     }
+
 
     override fun neighborChanged(
         state: BlockState,

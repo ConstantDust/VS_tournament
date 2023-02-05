@@ -80,11 +80,11 @@ class Rope : Item(
 
             if(clickedPosition == null){clickedPosition = blockPos}
 
-            var PosA = clickedPosition!!.toJOMLD()
-            var PosB = blockPos.toJOMLD()
+            var PosA = clickedPosition!!.toJOMLD().add(0.5, 0.5, 0.5)
+            var PosB = blockPos.toJOMLD().add(0.5, 0.5, 0.5)
 
-            var PosC = clickedPosition!!.toJOMLD()
-            var PosD = blockPos.toJOMLD()
+            var PosC = clickedPosition!!.toJOMLD().add(0.5, 0.5, 0.5)
+            var PosD = blockPos.toJOMLD().add(0.5, 0.5, 0.5)
 
             if(level.getShipObjectManagingPos(clickedPosition!!) != null){
                 PosC = level.getShipObjectManagingPos(clickedPosition!!)!!.transform.shipToWorld.transformPosition(clickedPosition!!.toJOMLD()) }
