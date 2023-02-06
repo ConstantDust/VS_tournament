@@ -101,7 +101,7 @@ class Rope : Item(
             val RopeMaxForce = 1e10
             val RopeConstraint = VSRopeConstraint(
                 thisShipId, otherShipId, RopeCompliance, PosA, PosB,
-                RopeMaxForce, PosC.sub(PosD, Vector3d()).length()
+                RopeMaxForce, PosC.sub(PosD, Vector3d()).length() + 1.0
             )
 
             println("Legnth: "+ PosC.sub(PosD, Vector3d()).length())
@@ -118,16 +118,13 @@ class Rope : Item(
 
             println("Done")
             println()
-            println()
-            println()
-
-
 
         } else {
 
             // CONNECT FIRST POINT
             clickedShipId = shipId
             clickedPosition = blockPos
+            ropeConstraintId = null
 
         }
     }

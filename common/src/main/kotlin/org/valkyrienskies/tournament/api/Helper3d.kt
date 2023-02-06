@@ -6,6 +6,7 @@ import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.world.level.Level
 import org.joml.Vector3d
 import org.valkyrienskies.mod.common.getShipManagingPos
+import kotlin.math.absoluteValue
 
 object Helper3d {
 
@@ -27,8 +28,8 @@ object Helper3d {
 
     fun MaybeShipToWorldspace(level: Level, pos: BlockPos): Vector3d {
         val s = level.getShipManagingPos(pos)
-        if (s == null) {return PositionToVec(pos)}
-        return s.shipToWorld.transformPosition(PositionToVec(pos))
+        if (s == null) {return PositionToVec(pos)} else {
+        return s.shipToWorld.transformPosition(PositionToVec(pos))}
     }
 
     fun MaybeShipToWorldspace(level: Level, vec: Vector3d): Vector3d {
@@ -43,17 +44,20 @@ object Helper3d {
         }
     }
 
-    fun drawQuadraticParticleCurve(A: Vector3d, B: Vector3d, length: Double, segments:Double , level: Level, particle: ParticleOptions) {
-        val lengthAB = A.distance(B) * segments
-        var C = A.lerp(B, 0.5)
-        C.y -= length * segments - lengthAB
+    fun drawQuadraticParticleCurve(A: Vector3d, C: Vector3d, length: Double, segments:Double , level: Level, particle: ParticleOptions) {
+        val lengthAC:Double = (A.sub(C, Vector3d()).length() * segments).absoluteValue
+        val lengthTOT:Double = length * segments
+        var B:Vector3d = C.sub(C.sub(A, Vector3d()).div(2.0, Vector3d()), Vector3d())
+        if(lengthAC < lengthTOT){ B.y -= lengthTOT - lengthAC }
 
-        for (i in 1..lengthAB.toInt()) {
-            val t = i / lengthAB
 
-            val D = A.lerp(C, t)
-            val E = C.lerp(B, t)
-            val X = D.lerp(E, t)
+        for (i in 1..lengthAC.toInt()) {
+            val t = i / lengthAC
+
+            val D:Vector3d = A.lerp(B, t, Vector3d())
+            val E:Vector3d = B.lerp(C, t, Vector3d())
+            val X:Vector3d = D.lerp(E, t, Vector3d())
+            //println(X)
 
             level.addParticle(particle, X.x, X.y, X.z, 0.0, 0.0, 0.0)
         }
