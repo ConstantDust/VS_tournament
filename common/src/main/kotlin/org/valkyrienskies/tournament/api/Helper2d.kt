@@ -14,4 +14,12 @@ object Helper2d {
         return Vector2d(vec.x, vec.z)
     }
 
+    fun vec2listTo3(l : List<Vector2d>, y : Double) : List<Vector3d> {
+        var newlist = ArrayList<Vector3d>()
+        l.forEach {
+            newlist.add(vec2to3(it, y))
+        }
+        return newlist
+    }
+
 }

@@ -4,44 +4,65 @@ import org.joml.Vector2d
 
 object algo2d {
 
-    // todo: broken:
     fun filledCircle(vec: Vector2d?, r: Double): List<Vector2d>? {
-        val targetVectors = circle(vec!!, r).toMutableList()
-        val filledVectors = fillVectors(vec, targetVectors)
-        targetVectors.toMutableList()
-        targetVectors.addAll(filledVectors)
-        return targetVectors.toList()
-    }
-
-    fun fill(pos: Vector2d, targetVectors: List<Vector2d>, filledVectors: MutableList<Vector2d>, maxX: Int, maxY: Int) {
-        if (pos.x < 0 || pos.x >= maxX || pos.y < 0 || pos.y >= maxY) {
-            return
-        }
-
-        if (targetVectors.contains(Vector2d(pos.x, pos.y))) {
-            return
-        }
-
-        filledVectors.add(Vector2d(pos.x, pos.y))
-
-        fill(Vector2d(pos.x + 1, pos.y), targetVectors, filledVectors, maxX, maxY)
-        fill(Vector2d(pos.x - 1, pos.y), targetVectors, filledVectors, maxX, maxY)
-        fill(Vector2d(pos.x, pos.y + 1), targetVectors, filledVectors, maxX, maxY)
-        fill(Vector2d(pos.x, pos.y - 1), targetVectors, filledVectors, maxX, maxY)
-    }
-
-    fun getFilledVectors(pos: Vector2d, targetVectors: List<Vector2d>, maxX: Int, maxY: Int): List<Vector2d> {
-        val filledVectors = mutableListOf<Vector2d>()
-        fill(pos, targetVectors, filledVectors, maxX, maxY)
+        val pos = vec!!
         println("pos: $pos")
-        return filledVectors
+        return fillVectors(pos, circle(pos, r))
+    }
+
+    fun filledCircleDirty(vec: Vector2d?, r: Double): List<Vector2d>? {
+        val pos = vec!!
+
+        var res = ArrayList<Vector2d>()
+
+        for (i in 1..r.toInt()) {
+            res.addAll(circle(pos, i.toDouble()))
+            res.addAll(circle(pos.add(1.0,1.0), i.toDouble()))
+            res.addAll(circle(pos.add(1.0,0.0), i.toDouble()))
+            res.addAll(circle(pos.add(0.0,1.0), i.toDouble()))
+            res.addAll(circle(pos.sub(1.0,1.0), i.toDouble()))
+            res.addAll(circle(pos.sub(1.0,0.0), i.toDouble()))
+            res.addAll(circle(pos.sub(0.0,1.0), i.toDouble()))
+        }
+
+        return res
+    }
+
+    fun fill(pos: Vector2d, targetVectors: List<Vector2d>, filledVectors: List<Vector2d>, max: Vector2d, min: Vector2d) : List<Vector2d> {
+        var vecs = ArrayList<Vector2d>()
+        vecs.addAll(filledVectors)
+
+        if (pos.x < min.x || pos.x > max.x || pos.y < min.y || pos.y > max.y) {
+            return vecs
+        }
+
+        if (targetVectors.contains(pos) || vecs.contains(pos)) {return vecs}
+
+        println("it pos: $pos    max: $max    min: $min")
+
+        vecs.add(pos)
+        vecs.add(pos.add(1.0, 0.0))
+
+        vecs.addAll(fill(pos.add(1.0, 0.0), targetVectors, vecs, max, min))
+        vecs.addAll(fill(pos.sub(1.0, 0.0), targetVectors, vecs, max, min))
+        vecs.addAll(fill(pos.add(0.0, 1.0), targetVectors, vecs, max, min))
+        vecs.addAll(fill(pos.sub(0.0, 1.0), targetVectors, vecs, max, min))
+
+        return vecs
     }
 
     fun fillVectors(pos: Vector2d, targetVectors: List<Vector2d>): List<Vector2d> {
         val maxX = targetVectors.map { it.x }.max()
         val maxY = targetVectors.map { it.y }.max()
 
-        return getFilledVectors(pos, targetVectors, maxX.toInt(), maxY.toInt())
+        val minX = targetVectors.map { it.x }.min()
+        val minY = targetVectors.map { it.y }.min()
+
+        val res = fill(pos, targetVectors, ArrayList(), Vector2d(maxX, maxY), Vector2d(minX, minY))
+
+        println("Fill Vectors result: ${res.size}")
+
+        return res
     }
 
 

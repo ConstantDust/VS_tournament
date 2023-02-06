@@ -2,9 +2,13 @@ package org.valkyrienskies.tournament.api
 
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleOptions
-import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.world.level.Level
 import org.joml.Vector3d
+import org.joml.Vector3dc
+import org.joml.Vector3i
+import org.valkyrienskies.core.impl.util.x
+import org.valkyrienskies.core.impl.util.y
+import org.valkyrienskies.core.impl.util.z
 import org.valkyrienskies.mod.common.getShipManagingPos
 import kotlin.math.absoluteValue
 
@@ -12,6 +16,18 @@ object Helper3d {
 
     fun VecToPosition(vec: Vector3d): BlockPos {
         return BlockPos(vec.x,vec.y,vec.z)
+    }
+
+    fun VecDCtoD(vec: Vector3dc): Vector3d {
+        return Vector3d(vec.x,vec.y,vec.z)
+    }
+
+    fun VecDtoI(vec: Vector3d): Vector3i {
+        return Vector3i(vec.x.toInt(),vec.y.toInt(),vec.z.toInt())
+    }
+
+    fun VecItoD(vec: Vector3i): Vector3d {
+        return Vector3d(vec.x.toDouble(),vec.y.toDouble(),vec.z.toDouble())
     }
 
     fun VecBlockMid(vec: Vector3d): Vector3d {

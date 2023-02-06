@@ -20,16 +20,19 @@ object tournamentBlocks {
     val IONTHRUSTER         = BLOCKS.register("ionthruster", ::IonThrusterBlock)
     val SPINNER             = BLOCKS.register("spinner", ::SpinnerBlock)
     val SHIPIFIER           = BLOCKS.register("shipifier", ::ShipifierBlock)
-    // commented out bc constantdust MESSED UP GRADLE!!!!!! TODO: uncomment when gradle fixed
-    //val HINGE       = BLOCKS.register("hinge", ::HingeBlock)
-    //val HINGE_TOP   = BLOCKS.register("hinge_top", ::HingeTopBlock)
     val SEAT                = BLOCKS.register("seat", ::SeatBlock)
     val ROPEHOOK            = BLOCKS.register("rope_hook", ::RopeHookBlock)
     val SENSOR              = BLOCKS.register("sensor", ::SensorBlock)
+    // commented out bc constantdust MESSED UP GRADLE!!!!!! TODO: uncomment when gradle fixed
+    //val HINGE       = BLOCKS.register("hinge", ::HingeBlock)
+    //val HINGE_TOP   = BLOCKS.register("hinge_top", ::HingeTopBlock)
+
     val INSTANTEXPLOSIVE    = BLOCKS.register("instantexplosive", ::InstantExplosiveBlock)
     val BIGINSTANTEXPLOSIVE = BLOCKS.register("instantexplosive_big", ::BigInstantExplosiveBlock)
     val STAGEDEXPLOSIVE     = BLOCKS.register("stagedexplosive", ::StagedExplosiveBlock)
     val BIGSTAGEDEXPLOSIVE  = BLOCKS.register("stagedexplosive_big", ::BigStagedExplosiveBlock)
+
+    //DEBUG BLOCKS:
     val OBSIDIANEXPLOSIVE    = BLOCKS.register("obsidianexplosive", ::ObsidianExplosiveBlock)
 
 
