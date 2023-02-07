@@ -32,8 +32,8 @@ object tournamentBlocks {
     val STAGEDEXPLOSIVE     = BLOCKS.register("stagedexplosive", ::StagedExplosiveBlock)
     val BIGSTAGEDEXPLOSIVE  = BLOCKS.register("stagedexplosive_big", ::BigStagedExplosiveBlock)
 
-    //DEBUG BLOCKS:
-    val OBSIDIANEXPLOSIVE    = BLOCKS.register("obsidianexplosive", ::ObsidianExplosiveBlock)
+    // DEBUG BLOCKS:
+    //val OBSIDIANEXPLOSIVE    = BLOCKS.register("obsidianexplosive", ::ObsidianExplosiveBlock)
 
 
     fun register() {
