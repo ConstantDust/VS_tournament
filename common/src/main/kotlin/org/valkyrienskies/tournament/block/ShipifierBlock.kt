@@ -49,7 +49,7 @@ class ShipifierBlock : DirectionalBlock (
     val Shipifier_SHAPE = DirectionalShape.south(SHAPE)
 
     init {
-        registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.POWER, 0).setValue(TournamentBlockstateProperties.TIER, 1))
+        registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.POWER, 0))
     }
 
     override fun getRenderShape(blockState: BlockState): RenderShape {
@@ -79,7 +79,6 @@ class ShipifierBlock : DirectionalBlock (
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
         builder.add(FACING)
         builder.add(BlockStateProperties.POWER)
-        builder.add(TournamentBlockstateProperties.TIER)
         super.createBlockStateDefinition(builder)
     }
 
@@ -96,28 +95,14 @@ class ShipifierBlock : DirectionalBlock (
         if (level as? ServerLevel == null) return
 
         val signal = level.getBestNeighborSignal(pos)
-        level.setBlock(pos, state.setValue(BlockStateProperties.POWER, signal), 2)
+        if (signal > 0) {
+            asm(level, pos)
+        }
     }
 
     override fun getStateForPlacement(ctx: BlockPlaceContext): BlockState {
         return defaultBlockState()
             .setValue(FACING, ctx.nearestLookingDirection)
-    }
-
-    override fun animateTick(state: BlockState, level: Level, pos: BlockPos, random: Random) {
-        super.animateTick(state, level, pos, random)
-        if (state.getValue(BlockStateProperties.POWER) > 0) {
-            val dir = state.getValue(FACING)
-
-            val x = pos.x.toDouble() + (0.5 * (dir.stepX + 1));
-            val y = pos.y.toDouble() + (0.5 * (dir.stepY + 1));
-            val z = pos.z.toDouble() + (0.5 * (dir.stepZ + 1));
-            val speedX = dir.stepX * -0.4
-            val speedY = dir.stepY * -0.4
-            val speedZ = dir.stepZ * -0.4
-
-            level.addParticle(ParticleTypes.FIREWORK, x, y, z, speedX, speedY, speedZ)
-        }
     }
 
 }
