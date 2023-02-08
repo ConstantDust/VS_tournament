@@ -59,8 +59,11 @@ class BalloonBlock : Block(
         if (level.isClientSide) return
         level as ServerLevel
 
+        val signal = level.getBestNeighborSignal(pos)
+        level.setBlock(pos, state.setValue(BlockStateProperties.POWER, signal), 2)
+
         tournamentShipControl.getOrCreate(level.getShipObjectManagingPos(pos) ?: level.getShipManagingPos(pos) ?: return
-            ).addBalloon(pos, state.getValue(BlockStateProperties.POWER).toDouble() * tournamentConfig.SERVER.BalloonAnalogStrength)
+            ).addBalloon(pos, state.getValue(BlockStateProperties.POWER).toDouble())
     }
 
     override fun onRemove(state: BlockState, level: Level, pos: BlockPos, newState: BlockState, isMoving: Boolean) {
@@ -69,6 +72,7 @@ class BalloonBlock : Block(
         if (level.isClientSide) return
         level as ServerLevel
 
+        state.setValue(BlockStateProperties.POWER, 0)
         level.getShipManagingPos(pos)?.getAttachment<tournamentShipControl>()?.removeBalloon(pos, state.getValue(BlockStateProperties.POWER).toDouble())
     }
     override fun onProjectileHit(level: Level, state: BlockState, hit: BlockHitResult, projectile: Projectile) {

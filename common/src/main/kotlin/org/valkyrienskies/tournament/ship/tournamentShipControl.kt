@@ -33,7 +33,8 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
     private var physConsumption = 0f
 
     private var weightedCenterOfLift:Vector3d = Vector3d()
-    private var BalloonsPower = 0.0
+    private var BalloonsPower = 1.0
+    private var EFFMulti = 0.0
     private val Spinners = mutableListOf<Pair<Vector3ic, Vector3dc>>()
     private val Thrusters = mutableListOf<Triple<Vector3ic, Vector3dc, Double>>()
     private val Pulses = CopyOnWriteArrayList<Pair<Vector3d, Vector3d>>()
@@ -72,23 +73,31 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
 //        }
 
         // if moving to fast or is to high dont applyu a force
-        if (physShip.poseVel.vel.y() < 2 || physShip.transform.positionInWorld.y() > tournamentConfig.SERVER.BaseHeight)    {
-            BalloonsPower = 0.0
+        if (physShip.poseVel.vel.y() > 2.0)    {
+            EFFMulti = 0.0
+            println("SPEED TO HIGH")
+        }
+        if (physShip.transform.positionInWorld.y() > tournamentConfig.SERVER.BaseHeight)    {
+            EFFMulti = 0.0
+            println("TO FAR UP")
         }
 
-        println(physShip.transform.positionInWorld.y())
+        println("POS" + physShip.transform.positionInWorld.y())
 
-        if(BalloonsPower != 0.0) {
+        if(EFFMulti != 0.0) {
 
-            var centerOfLift = weightedCenterOfLift.div(BalloonsPower)
+            var centerOfLift = weightedCenterOfLift.div(BalloonsPower, Vector3d())
             physShip.applyInvariantForceToPos(
                 Vector3d(
                     0.0,
-                    (BalloonsPower),
+                    ((BalloonsPower * tournamentConfig.SERVER.BalloonPower) / physShip.poseVel.vel.y()),
                     0.0
                 ), centerOfLift
             )
         }
+        EFFMulti = 1.0
+        println("FOR" + BalloonsPower * tournamentConfig.SERVER.BalloonPower)
+        println()
 
         Spinners.forEach {
             val (pos, torque) = it

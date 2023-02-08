@@ -14,16 +14,13 @@ object tournamentConfig {
     class Server {
 
         @JsonSchema(description = "The Force a balloon will output")
-        var BaseHeight = 100.0
+        var BaseHeight = 200.0
 
         @JsonSchema(description = "The Force a spinner will output")
         var SpinnerSpeed = 5000.0
 
         @JsonSchema(description = "The Force a balloon will output")
-        var BalloonPower = 30.0
-
-        @JsonSchema(description = "how much stronger a baloon will get when powered (1.0 is 15x stronger at max power)")
-        var BalloonAnalogStrength = 1.0
+        var BalloonPower = 1.0
 
         @JsonSchema(description = "The Force a spinner will output")
         var ThrusterSpeed = 10000.0
