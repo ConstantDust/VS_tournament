@@ -8,12 +8,15 @@ import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
+import org.valkyrienskies.tournament.blockentity.RopeHookBlockEntity
 import org.valkyrienskies.tournament.registry.DeferredRegister
 import org.valkyrienskies.tournament.registry.RegistrySupplier
 
 @Suppress("unused")
 object tournamentBlockEntities {
     private val BLOCKENTITIES = DeferredRegister.create(tournamentMod.MOD_ID, Registry.BLOCK_ENTITY_TYPE_REGISTRY)
+
+    val ROPE_HOOK = tournamentBlocks.ROPEHOOK withBE ::RopeHookBlockEntity byName "rope_hook"
 
     //val SENSOR = tournamentBlocks.SENSOR withBE ::SensorBlockEntity byName "sensor"
     // commented out bc constantdust MESSED UP GRADLE!!!!!! TODO: uncomment when gradle fixed
