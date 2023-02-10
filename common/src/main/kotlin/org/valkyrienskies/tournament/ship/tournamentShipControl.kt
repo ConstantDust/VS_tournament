@@ -32,9 +32,10 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
     private var extraForce = 0.0
     private var physConsumption = 0f
 
-    private var weightedCenterOfLift:Vector3d = Vector3d()
-    private var BalloonsPower = 1.0
-    private var EFFMulti = 0.0
+//    private var weightedCenterOfLift:Vector3d = Vector3d()
+//    private var BalloonsPower = 1.0
+//    private var EFFMulti = 0.0
+    private val Balloons = mutableListOf<Pair<Vector3i, Double>>()
     private val Spinners = mutableListOf<Pair<Vector3ic, Vector3dc>>()
     private val Thrusters = mutableListOf<Triple<Vector3ic, Vector3dc, Double>>()
     private val Pulses = CopyOnWriteArrayList<Pair<Vector3d, Vector3d>>()
@@ -52,52 +53,31 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
         val omega = SegmentUtils.getOmega(physShip.poseVel, segment, Vector3d())
         val vel = SegmentUtils.getVelocity(physShip.poseVel, segment, Vector3d())
 
-//        Balloons.forEach {
-//            val (pos, pow) = it
-//
-//            val tPos = Vector3d(pos).add( 0.5, 0.5, 0.5).sub(physShip.transform.positionInShip)
-//
-//            val tHeight = physShip.transform.positionInWorld.y()
-//            var tPValue = tournamentConfig.SERVER.BaseHeight - ((tHeight * tHeight) / 1000.0)
-//
-//            if (physShip.poseVel.vel.y() > 10.0)    {
-//                tPValue *= 0.25
-//            }
-//            if(tPValue <= 0){
-//                tPValue = 0.0
-//            }
-//
-//            var centerOfLift = weighedCenterOfLift / totalBalloonLift
-//
-//
-//        }
+        Balloons.forEach {
+            val (pos, pow) = it
 
-        // if moving to fast or is to high dont applyu a force
-        if (physShip.poseVel.vel.y() > 2.0)    {
-            EFFMulti = 0.0
-            println("SPEED TO HIGH")
-        }
-        if (physShip.transform.positionInWorld.y() > tournamentConfig.SERVER.BaseHeight)    {
-            EFFMulti = 0.0
-            println("TO FAR UP")
-        }
+            val tPos = Vector3d(pos).add( 0.5, 0.5, 0.5).sub(physShip.transform.positionInShip)
 
-        println("POS" + physShip.transform.positionInWorld.y())
+            val tHeight = physShip.transform.positionInWorld.y()
+            var tPValue = tournamentConfig.SERVER.BaseHeight - ((tHeight * tHeight) / 1000.0)
 
-        if(EFFMulti != 0.0) {
+            if (vel.y() > 10.0)    {
+                tPValue = (-vel.y() * 0.25)
+            }
+            if(tPValue <= 0){
+                tPValue = 0.0
+            }
 
-            var centerOfLift = weightedCenterOfLift.div(BalloonsPower, Vector3d())
             physShip.applyInvariantForceToPos(
                 Vector3d(
                     0.0,
-                    ((BalloonsPower * tournamentConfig.SERVER.BalloonPower) / physShip.poseVel.vel.y()),
-                    0.0
-                ), centerOfLift
+                    (pow + 1.0) * tournamentConfig.SERVER.BalloonPower * tPValue,
+                    0.0),
+                    tPos
             )
+
+
         }
-        EFFMulti = 1.0
-        println("FOR" + BalloonsPower * tournamentConfig.SERVER.BalloonPower)
-        println()
 
         Spinners.forEach {
             val (pos, torque) = it
@@ -132,10 +112,6 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
     }
     var power = 0.0
 
-    var balloons = 0 // Amount of balloons
-        set(v) {
-            field = v; deleteIfEmpty()
-        }
 
     override fun tick() {
         extraForce = power
@@ -146,20 +122,20 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
     }
 
     private fun deleteIfEmpty() {
-        if (balloons == 0) {
-            ship?.saveAttachment<tournamentShipControl>(null)
-        }
+        ship?.saveAttachment<tournamentShipControl>(null)
     }
 
 
     fun addBalloon(pos: BlockPos, pow: Double) {
-        weightedCenterOfLift = weightedCenterOfLift.add(pos.toJOMLD().mul(pow))
-        BalloonsPower += pow
+        Balloons.add(pos.toJOML() to pow)
+//        weightedCenterOfLift = weightedCenterOfLift.add(pos.toJOMLD().mul(pow))
+//        BalloonsPower += pow
     }
 
     fun removeBalloon(pos: BlockPos, pow: Double) {
-        weightedCenterOfLift = weightedCenterOfLift.sub(pos.toJOMLD().mul(pow))
-        BalloonsPower -= pow
+        Balloons.remove(pos.toJOML() to pow)
+//        weightedCenterOfLift = weightedCenterOfLift.sub(pos.toJOMLD().mul(pow))
+//        BalloonsPower -= pow
     }
 
     fun addThruster(pos: BlockPos, tier: Double, force: Vector3dc) {
