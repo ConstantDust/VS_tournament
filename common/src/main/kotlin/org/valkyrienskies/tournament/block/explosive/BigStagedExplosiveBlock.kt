@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.SoundType
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.material.Material
+import org.valkyrienskies.tournament.api.LevelExtension.explodeShip
 
 class BigStagedExplosiveBlock : Block(
     Properties.of(Material.METAL)
@@ -30,8 +31,8 @@ class BigStagedExplosiveBlock : Block(
 
         val signal = level.getBestNeighborSignal(pos)
         if (signal > 0) {
-            level.explode(
-                PrimedTnt(EntityType.TNT, level),
+            level.explodeShip(
+                level,
                 pos.x + 0.5,
                 pos.y + 0.5,
                 pos.z + 0.5,
@@ -39,8 +40,8 @@ class BigStagedExplosiveBlock : Block(
                 Explosion.BlockInteraction.BREAK
             )
             for (i in 1..30) {
-                level.explode(
-                    PrimedTnt(EntityType.TNT, level),
+                level.explodeShip(
+                    level,
                     pos.x + 0.5 + (-40..40).random(),
                     pos.y + 0.5 + (-20..4).random(),
                     pos.z + 0.5 + (-40..40).random(),
