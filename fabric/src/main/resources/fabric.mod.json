@@ -1,41 +1,21 @@
 {
   "schemaVersion": 1,
-  "id": "vs_eureka",
+  "id": "vs_tournament",
   "version": "${version}",
-  "name": "VS Eureka Mod",
-  "description": "Basically Archimedes Ships, but with VS2 as the backend!",
+  "name": "VS Tournament Mod",
+  "description": "",
   "authors": [
-    "ewoudje",
-    "Tri0de",
-    "Rubydesic"
+    "ConstantDust",
+    "alex_s168"
   ],
-  "contributors": [
-    "Copper",
-    "Anarava",
-    "VS Discord"
-  ],
-  "contact": {
-    "homepage": "https://valkyrienskies.org/",
-    "sources": "https://github.com/ValkyrienSkies/Eureka"
-  },
   "license": "Apache-2.0",
-  "icon": "assets/vs_eureka/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "org.valkyrienskies.eureka.fabric.EurekaModFabric"
-    ],
-    "client": [
-      "org.valkyrienskies.eureka.fabric.EurekaModFabric${'$'}Client"
-    ],
-    "modmenu": [
-      "org.valkyrienskies.eureka.fabric.EurekaModFabric${'$'}ModMenu"
+      "org.valkyrienskies.tournament.fabric.tournamentModFabric"
     ]
   },
-  "mixins": [
-    "vs_eureka-common.mixins.json",
-    "vs_eureka.mixins.json"
-  ],
+  "mixins": [],
   "depends": {
     "minecraft": ">=1.16.5"
   }

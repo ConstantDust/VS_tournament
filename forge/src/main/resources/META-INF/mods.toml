@@ -4,44 +4,47 @@ issueTrackerURL = "https://github.com/ValkyrienSkies/Valkyrien-Skies-2/issues"
 license = "Apache-2.0"
 
 [[mods]]
-modId = "vs_eureka"
+modId = "vs_tournament"
 version = "${version}"
-displayName = "VS Eureka Mod"
-authors = ["Tri0de", "ewoudje", "VS2 Discord Artists"]
+displayName = "VS Tournament Mod"
+authors = [
+    "ConstantDust",
+    "alex_s168"
+]
 description = '''
-Basically Archimedes Ships, but with VS2 as the backend!
+
 '''
 logoFile = "icon.png"
 
-[[dependencies.vs_eureka]]
+[[dependencies.vs_tournament]]
 modId = "forge"
 mandatory = false
 versionRange = "[36,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.vs_eureka]]
+[[dependencies.vs_tournament]]
 modId = "valkyrienskies"
 mandatory = false
 versionRange = "[1,)"
 ordering = "AFTER"
 side = "BOTH"
 
-[[dependencies.vs_eureka]]
+[[dependencies.vs_tournament]]
 modId = "minecraft"
 mandatory = false
 versionRange = "[1.16.5,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.vs_eureka]]
+[[dependencies.vs_tournament]]
 modId = "minecraft"
 mandatory = false
 versionRange = "[1.16.5,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.vs_eureka]]
+[[dependencies.vs_tournament]]
 modId = "architectury"
 mandatory = false
 versionRange = "[1.31.61,)"
