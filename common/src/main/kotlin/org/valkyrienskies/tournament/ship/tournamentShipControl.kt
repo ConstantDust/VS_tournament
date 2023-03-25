@@ -62,7 +62,7 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
             var tPValue = tournamentConfig.SERVER.BaseHeight - ((tHeight * tHeight) / 1000.0)
 
             if (vel.y() > 10.0)    {
-                tPValue = (-vel.y() * 0.25)
+                tPValue -= (vel.y() * 0.25)
             }
             if(tPValue <= 0){
                 tPValue = 0.0
