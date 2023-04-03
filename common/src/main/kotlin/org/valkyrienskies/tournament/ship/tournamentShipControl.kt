@@ -94,7 +94,7 @@ class tournamentShipControl : ShipForcesInducer, ServerShipUser, Ticked {
             val tForce = physShip.transform.shipToWorld.transformDirection(force, Vector3d()) //.shipToWorld.transformDirection(force, Vector3d())
             val tPos = Vector3d(pos).add(0.5, 0.5, 0.5).sub(physShip.transform.positionInShip)
 
-            if (force.isFinite && physShip.poseVel.vel.length() < 50) {
+            if (force.isFinite && physShip.poseVel.vel.length() < tournamentConfig.SERVER.thrusterShutoffSpeed) {
                 physShip.applyInvariantForceToPos(tForce.mul(tournamentConfig.SERVER.ThrusterSpeed * tier, Vector3d()), tPos)
             }
         }

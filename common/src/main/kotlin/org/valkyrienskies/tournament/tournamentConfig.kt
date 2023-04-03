@@ -22,8 +22,11 @@ object tournamentConfig {
         @JsonSchema(description = "The Force a balloon will output")
         var BalloonPower = 30.0
 
-        @JsonSchema(description = "The Force a spinner will output")
+        @JsonSchema(description = "The Force a thruster will output")
         var ThrusterSpeed = 10000.0
+
+        @JsonSchema(description = "Thruster shutoff speed (Changing this is not recommended)")
+        var thrusterShutoffSpeed = 50.0
 
         @JsonSchema(description = "Whether the ship helm assembles diagonally connected blocks or not")
         var diagonals = true
